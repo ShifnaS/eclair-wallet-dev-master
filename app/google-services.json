@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "124998165959",
+    "firebase_url": "https://eclairwallet.firebaseio.com",
+    "project_id": "eclairwallet",
+    "storage_bucket": "eclairwallet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124998165959:android:1ed9c27199eee8cb",
+        "android_client_info": {
+          "package_name": "fr.acinq.eclair.wallet.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124998165959-luhkp1g39ota87d4hb8109t3mnojs21m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.acinq.eclair.wallet.dev",
+            "certificate_hash": "79c54cb8bf44a63a711f3109fb5cb4b01ac2429e"
+          }
+        },
+        {
+          "client_id": "124998165959-i86d2lkjq87c4qhp5f31qehmd54ni7qc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx6ngN16gvONMGr0OgOiHh7GsZoTzdnCk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124998165959-i86d2lkjq87c4qhp5f31qehmd54ni7qc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

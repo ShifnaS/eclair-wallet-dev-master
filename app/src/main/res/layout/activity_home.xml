@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2018 ACINQ SAS
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+      name="channelsBackupEnabled"
+      type="boolean" />
+
+    <variable
+      name="syncProgress"
+      type="int" />
+
+  </data>
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HomeActivity">
+
+    <ViewStub
+      android:id="@+id/home_stub_intro"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout="@layout/stub_tour_guide" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:id="@+id/balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <!-- top toolbar -->
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:baselineAligned="false"
+          android:orientation="horizontal">
+
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start|center"
+            android:orientation="horizontal">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/space_md"
+              android:background="@drawable/rounded_corner_green"
+              android:paddingBottom="3dp"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingTop="3dp"
+              android:text="@string/CHAIN"
+              android:textAllCaps="true"
+              android:textColor="@color/white"
+              android:textSize="10sp"
+              android:textStyle="bold" />
+
+            <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:clickable="true"
+              android:contentDescription="@string/home_sync_progress_desc"
+              android:focusable="true"
+              android:gravity="center"
+              android:onClick="popinSyncProgress"
+              android:padding="@dimen/space_xs"
+              android:visibility="@{syncProgress &gt; 0 &amp;&amp; syncProgress &lt; 100 ? View.VISIBLE : View.GONE}">
+
+              <ImageView
+                android:id="@+id/sync_progress_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_sync_yellow_24dp" />
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_xxs"
+                android:text="@{String.format(@string/home_sync_progress, syncProgress)}"
+                android:textAllCaps="true"
+                android:textColor="@color/yellow"
+                android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <Button
+              android:id="@+id/channels_backup_warning"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/space_xs"
+              android:background="@android:color/transparent"
+              android:contentDescription="@string/home_backup_disabled_icon_desc"
+              android:drawablePadding="@dimen/space_xs"
+              android:drawableStart="@drawable/ic_cloud_off_yellow_24dp"
+              android:ellipsize="end"
+              android:maxLines="1"
+              android:onClick="enableChannelsBackup"
+              android:padding="@dimen/space_xs"
+              android:text="@string/home_no_backup"
+              android:textAllCaps="true"
+              android:textColor="@color/yellow"
+              android:textSize="10sp"
+              android:visibility="@{channelsBackupEnabled ? View.GONE : View.VISIBLE}" />
+
+          </LinearLayout>
+
+          <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent" />
+
+        </LinearLayout>
+
+        <!-- balance bar -->
+        <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingBottom="14dp"
+          android:paddingLeft="24dp"
+          android:paddingRight="24dp"
+          android:paddingTop="4dp">
+
+          <fr.acinq.eclair.wallet.customviews.CoinAmountView
+            android:id="@+id/balance_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:alignment="center"
+            app:amount_color="@color/almost_white"
+            app:amount_size="38sp"
+            app:unit="mBTC"
+            app:unit_color="@color/almost_white"
+            app:unit_size="12sp" />
+
+          <fr.acinq.eclair.wallet.customviews.CoinAmountView
+            android:id="@+id/balance_onchain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/balance_total"
+            android:layout_marginTop="4dp"
+            android:alpha="0.8"
+            app:alignment="center"
+            app:amount_bold="true"
+            app:amount_color="@color/almost_white"
+            app:amount_size="11sp"
+            app:image_size="12dp"
+            app:image_src="@drawable/icon_btc_shape_white"
+            app:unit="mBTC"
+            app:unit_color="@color/almost_white"
+            app:unit_size="10sp" />
+
+          <fr.acinq.eclair.wallet.customviews.CoinAmountView
+            android:id="@+id/balance_lightning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/balance_onchain"
+            android:layout_marginTop="1dp"
+            android:alpha="0.8"
+            app:alignment="center"
+            app:amount_bold="true"
+            app:amount_color="@color/almost_white"
+            app:amount_size="11sp"
+            app:image_size="12dp"
+            app:image_src="@drawable/icon_bolt_shape_white"
+            app:unit="mBTC"
+            app:unit_color="@color/almost_white"
+            app:unit_size="10sp" />
+
+        </RelativeLayout>
+      </LinearLayout>
+
+      <!-- tabs + fragments -->
+      <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        style="@style/CustomTabStyle"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@color/grey_0_light_x1"
+        app:tabMode="scrollable" />
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+      >
+      </android.support.v4.view.ViewPager>
+
+    </LinearLayout>
+
+    <!-- toggleable floating buttons -->
+    <LinearLayout
+      android:id="@+id/sendpayment_buttons"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentEnd="true"
+      android:gravity="end"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:id="@+id/sendpayment_actions_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+       >
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/sendpayment_paste"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="pasteSendPaymentRequest"
+          app:icon="@mipmap/ic_paste"
+          app:label="Paste a payment request" />
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/sendpayment_scan"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="scanSendPaymentRequest"
+          app:icon="@mipmap/ic_scan"
+          app:label="Scan a payment request" />
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/make_new_regular_payment"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="makeNewRegularPayment"
+          app:icon="@mipmap/ic_open_new"
+          app:label="Make New Regular Payment" />
+
+      </LinearLayout>
+
+      <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sendpayment_toggler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_md"
+        android:layout_marginEnd="@dimen/space_md"
+        android:layout_marginStart="@dimen/space_md"
+        android:layout_marginTop="8dp"
+        android:onClick="toggleSendPaymentButtons"
+        android:src="@mipmap/ic_send"
+        android:visibility="visible"
+        app:backgroundTint="@color/primary"
+        app:fabSize="normal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/openchannel_buttons"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentEnd="true"
+      android:gravity="end"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <LinearLayout
+        android:id="@+id/openchannel_actions_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/openchannel_paste"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="pasteNodeURI"
+          app:bgcolor="@color/green"
+          app:icon="@mipmap/ic_paste"
+          app:label="@string/home_channel_paste_uri" />
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/openchannel_scan"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="scanNodeURI"
+          app:bgcolor="@color/green"
+          app:icon="@mipmap/ic_scan"
+          app:label="@string/home_channel_scan_uri" />
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/openchannel_random"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="openChannelRandom"
+          app:bgcolor="@color/green"
+          app:icon="@drawable/icon_random_white"
+          app:label="@string/home_channel_random" />
+
+        <fr.acinq.eclair.wallet.customviews.FabText
+          android:id="@+id/openchannel_acinq"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="openChannelWithAcinq"
+          app:bgcolor="@color/green"
+          app:icon="@drawable/icon_random_white"
+          app:label="@string/home_channel_acinq" />
+
+      </LinearLayout>
+
+      <android.support.design.widget.FloatingActionButton
+
+        android:id="@+id/home_openchannel_toggler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_md"
+        android:layout_marginEnd="@dimen/space_md"
+        android:layout_marginStart="@dimen/space_md"
+        android:layout_marginTop="8dp"
+        android:onClick="toggleOpenChannelButtons"
+        android:src="@mipmap/ic_plus"
+        app:backgroundTint="@color/green"
+        app:fabSize="normal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/home_connection_status"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginBottom="16dp"
+      android:alpha="0.95"
+      android:background="@drawable/rounded_corner_dark"
+      android:elevation="10dp"
+      android:orientation="vertical"
+      android:padding="10dp"
+      android:visibility="gone">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+          android:layout_width="14dp"
+          android:layout_height="14dp"
+          android:layout_marginEnd="4dp"
+          android:src="@drawable/ic_warning_tri" />
+
+        <TextView
+          android:id="@+id/home_connection_status_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="2dp"
+          android:drawablePadding="4dp"
+          android:maxWidth="180dp"
+          android:textAlignment="center"
+          android:textAllCaps="true"
+          android:textColor="@color/grey_1"
+          android:textSize="10sp"
+          android:textStyle="bold" />
+      </LinearLayout>
+
+      <TextView
+        android:id="@+id/home_connection_status_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxWidth="180dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_2"
+        android:textSize="10sp" />
+    </LinearLayout>
+  </RelativeLayout>
+</layout>

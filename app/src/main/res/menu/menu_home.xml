@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/menu_home_notifications"
+    android:title="@string/notifications"
+    app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_home_networkinfos"
+    android:title="@string/menu_networkinfos"
+    app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_home_preferences"
+    android:title="@string/menu_settings"
+    app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_home_faq"
+    android:title="@string/menu_faq"
+    app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_home_about"
+    android:title="@string/menu_about"
+    app:showAsAction="never" />
+</menu>

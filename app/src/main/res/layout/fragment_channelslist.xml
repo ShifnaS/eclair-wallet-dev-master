@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2018 ACINQ SAS
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+      name="showInactive"
+      type="boolean" />
+
+    <variable
+      name="activeSize"
+      type="int" />
+
+    <variable
+      name="inactiveSize"
+      type="int" />
+
+  </data>
+
+  <android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/grey_0_light_x3"
+      android:orientation="vertical"
+      android:paddingBottom="88dp">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/localchannels_active_empty"
+        android:textAlignment="center"
+        android:textColor="@color/grey_1"
+        android:textSize="12sp"
+        android:visibility="@{activeSize == 0 ? View.VISIBLE : View.GONE}" />
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/active_channels_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_md"
+        android:nestedScrollingEnabled="false"
+        android:visibility="@{activeSize > 0 ? View.VISIBLE : View.GONE}" />
+
+      <LinearLayout
+        android:id="@+id/toggle_inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="@dimen/space_sm"
+        android:visibility="@{inactiveSize > 0 ? View.VISIBLE : View.GONE}">
+
+        <ImageView
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:src="@{showInactive ? @drawable/ic_expand_less : @drawable/ic_expand_more}" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/space_xxs"
+          android:text="@{showInactive ? @string/localchannels_hide_inactive : @string/localchannels_show_inactive}"
+          android:textAllCaps="true"
+          android:textColor="@color/grey_1"
+          android:textSize="10sp" />
+      </LinearLayout>
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/inactive_channels_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xxs"
+        android:nestedScrollingEnabled="false"
+        android:visibility="@{inactiveSize > 0 &amp;&amp; showInactive ? View.VISIBLE : View.GONE}" />
+
+    </LinearLayout>
+  </android.support.v4.widget.NestedScrollView>
+</layout>

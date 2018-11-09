@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2018 ACINQ SAS
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+  <color name="primary">#62798c</color>
+  <color name="primary_light_x4">#c8eefc</color>
+  <color name="primary_light_x3">#aecbd5</color>
+  <color name="primary_light_x2">#8ca5b9</color>
+  <color name="primary_light_x1">#70889c</color>
+  <color name="primary_dark_x1">#596e80</color>
+  <color name="primary_dark_x3">#516779</color>
+  <color name="accent">#ba3259</color>
+  <!-- very light greys for backgrounds -->
+  <color name="grey_0">#ecedef</color>
+  <color name="grey_0_light_x3">#f9f9f9</color>
+  <color name="grey_0_light_x2">#f6f6f6</color>
+  <color name="grey_0_light_x1">#f2f2f2</color>
+  <color name="grey_0_dark_x1">#dedede</color>
+  <!-- light grey for text that should be almost invisible to the user -->
+  <color name="grey_1">#bbbbbb</color>
+  <!-- light grey, ok for non important text -->
+  <color name="grey_2">#888888</color>
+  <!-- standard grey -->
+  <color name="grey_3">#555555</color>
+  <!-- almost black, good for regular text -->
+  <color name="grey_4">#333333</color>
+  <color name="green">#00c28c</color>
+  <color name="yellow">#ffe88a</color>
+  <color name="yellow_light_x2">#feedc5</color>
+  <color name="yellow_light_x1">#ffda97</color>
+  <color name="orange">#ffab00</color>
+  <color name="red_faded">#ca4747</color>
+  <color name="red_faded_light_x2">#ffa4a4</color>
+  <color name="red_faded_light_x1">#ff6c6c</color>
+  <color name="red_faded_dark_x1">#be4141</color>
+  <color name="red_faded_dark_x2">#b13a3a</color>
+  <color name="blue">#67ccf2</color>
+  <color name="blue_light_x1">#91e2ff</color>
+  <color name="blue_light_x2">#c8eefc</color>
+  <color name="white">#ffffff</color>
+  <color name="white_low_alpha">#11ffffff</color>
+  <color name="almost_white">#fbfbfb</color>
+  <color name="intro">#ffe785</color>
+</resources>
