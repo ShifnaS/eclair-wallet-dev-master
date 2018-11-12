@@ -96,11 +96,8 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
   public static final String EXTRA_PAGE = BuildConfig.APPLICATION_ID + "EXTRA_PAGE";
   public static final String EXTRA_PAYMENT_URI = BuildConfig.APPLICATION_ID + "EXTRA_PAYMENT_URI";
-  String tagManage="Manage";
-  String tagLightning="Lightning";
   public CallRegularPaymentFragment callRegularPaymentFragment;
   private ActivityHomeBinding mBinding;
-
   private static final String TAG = HomeActivity.class.getSimpleName();
   private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -134,6 +131,11 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     // --- check initial app state
+
+
+
+
+
     if (prefs.getBoolean(Constants.SETTING_SHOW_INTRO, true)) {
       mStubIntro = findViewById(R.id.home_stub_intro);
       displayIntro(prefs);
@@ -202,7 +204,11 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     };
 
 
-    displayFirebaseRegId();
+
+
+
+
+   // displayFirebaseRegId();
 
   }
 

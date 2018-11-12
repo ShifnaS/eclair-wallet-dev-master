@@ -142,7 +142,7 @@ public class NewRegularPaymentFragment extends Fragment {
                         try
                         {
                           String schedule_id = "",_id, note="",schedule_type = "", service_name = "", immediate_cost = "", payment_month = "", payment_date = "", qr_code = "", amount = "", frequency = "";
-
+                          int stat;
                           String status = jo.getString("status");
                           boolean error = jo.getBoolean("error");
                          // Toast.makeText(getContext(), "status "+status, Toast.LENGTH_SHORT).show();
@@ -161,7 +161,11 @@ public class NewRegularPaymentFragment extends Fragment {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
 
-
+                                if (jsonObject.has("status")) {
+                                  stat = jsonObject.getInt("status");
+                                } else {
+                                  stat =0;
+                                }
                                 if (jsonObject.has("_id")) {
                                   _id = jsonObject.getString("_id");
                                 } else {
@@ -217,34 +221,40 @@ public class NewRegularPaymentFragment extends Fragment {
                                 } else {
                                   note = "";
                                 }
-                                Fragment fragment = new SummaryPurchaseFragment();
+                                if(stat==2)
+                                {
+                                  Toast.makeText(getContext(), "This schedule is not active", Toast.LENGTH_SHORT).show();
 
+                                }
+                                else
+                                {
+                                  Fragment fragment = new SummaryPurchaseFragment();
+                                  Bundle bundle = new Bundle();
+                                  bundle.putString("_id", _id);
+                                  bundle.putString("service_name", service_name);
+                                  bundle.putString("immediate_cost", immediate_cost);
+                                  bundle.putString("amount", amount);
+                                  bundle.putString("frequency", frequency);
+                                  bundle.putString("payment_date", payment_date);
+                                  bundle.putString("qr_code", qr_code);
+                                  bundle.putString("schedule_type", schedule_type);
+                                  bundle.putString("schedule_id", schedule_id);
+                                  bundle.putString("payment_month", payment_month);
+                                  bundle.putString("note", note);
+                                  fragment.setArguments(bundle);
+                                  FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                  FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                  fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+                                  fragmentTransaction.addToBackStack(null);
+                                  fragmentTransaction.commit();
+                                }
 
-                                Bundle bundle = new Bundle();
-                                bundle.putString("_id", _id);
-                                bundle.putString("service_name", service_name);
-                                bundle.putString("immediate_cost", immediate_cost);
-                                bundle.putString("amount", amount);
-                                bundle.putString("frequency", frequency);
-                                bundle.putString("payment_date", payment_date);
-                                bundle.putString("qr_code", qr_code);
-                                bundle.putString("schedule_type", schedule_type);
-                                bundle.putString("schedule_id", schedule_id);
-                                bundle.putString("payment_month", payment_month);
-                                bundle.putString("note", note);
-                                //  bundle.putString("invoice_id", invoice_id);
-
-                                fragment.setArguments(bundle);
-
-                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-                                fragmentTransaction.addToBackStack(null);
-                                fragmentTransaction.commit();
                               }
 
 
-                            } else {
+                            }
+
+                            else {
                               Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
                             }
                           } else {
@@ -258,7 +268,7 @@ public class NewRegularPaymentFragment extends Fragment {
                       }
                       else
                       {
-                        Toast.makeText(getContext(), "Inavlid qr code", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Invalid qr code", Toast.LENGTH_SHORT).show();
                       }
 
 

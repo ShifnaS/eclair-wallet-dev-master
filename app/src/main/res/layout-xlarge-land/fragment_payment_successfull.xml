@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="paymentSuccesfullPresenter"
+            type="fr.acinq.eclair.wallet.presenter.PaymentSuccesfullPresenter"/>
+    </data>
+
+    <LinearLayout
+      android:background="?android:windowBackground"
+
+      android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/content_success"
+        >
+
+        <LinearLayout
+          android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal|center_vertical">
+
+                <TextView
+                  android:id="@+id/success"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:textSize="@dimen/textSize"
+                    android:background="@drawable/rounded_corner_button"
+                    android:gravity="center_vertical"
+                    android:hint="payment successfull  \n \n \n \n Your next Payment will be on june 23rd "
+                    android:textAlignment="center"
+                    android:textColor="@color/grey_4"
+                    android:textColorHint="@color/grey_4" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/textSize"
+                android:background="@drawable/rounded_corner_green"
+                android:onClick="@{(v)->paymentSuccesfullPresenter.ok()}"
+                android:text="@string/ok"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</layout>

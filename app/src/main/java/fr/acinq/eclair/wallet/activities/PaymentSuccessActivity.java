@@ -70,6 +70,11 @@ public class PaymentSuccessActivity extends EclairActivity {
     mCheckImage = findViewById(R.id.paymentsuccess_check);
     mDescView.setText(desc);
     String resp="";
+    //String m=my_msg;
+    //Toast.makeText(app, "message!!!!!!! "+my_msg, Toast.LENGTH_SHORT).show();
+
+
+
     if(intent.hasExtra(EXTRA_IVOICE_ID))
     {
 
@@ -98,13 +103,9 @@ public class PaymentSuccessActivity extends EclairActivity {
             {
               if (response.equalsIgnoreCase("success"))
               {
-                Toast.makeText(this, "message "+response, Toast.LENGTH_SHORT).show();
-
+               // Toast.makeText(this, "message "+response, Toast.LENGTH_SHORT).show();
                 //EventBus.getDefault().post(new Message("success"));
-                Intent inten = new Intent(getBaseContext(), HomeActivity.class);
-                inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inten);
-                finish();
+               goHome();
 
               }
               else

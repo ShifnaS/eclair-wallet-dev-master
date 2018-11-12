@@ -21,31 +21,55 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.security.MessageDigest;
 
 import fr.acinq.eclair.wallet.App;
 import fr.acinq.eclair.wallet.R;
+import fr.acinq.eclair.wallet.events.Message;
+import fr.acinq.eclair.wallet.fragments.ConfirmationFragment;
+import fr.acinq.eclair.wallet.fragments.PAymentSuccessfullFragment;
 import fr.acinq.eclair.wallet.fragments.PinDialog;
+import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 import fr.acinq.eclair.wallet.utils.WalletUtils;
 
 public abstract class EclairActivity extends AppCompatActivity {
 
   protected App app;
+  public String my_msg="";
+  SharedPreferences sp;
+  SharedPreferences.Editor ed;
 
   @Override
+  public SharedPreferences getPreferences(int mode) {
+    return super.getPreferences(mode);
+  }
+  FragmentCommunicator fragmentCommunicator;
+  @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
+   // EventBus.getDefault().register(this);
     super.onCreate(savedInstanceState);
     app = ((App) getApplication());
+    sp=PreferenceManager.getDefaultSharedPreferences(this);
+    ed=sp.edit();
   }
 
   protected void restart() {
@@ -176,6 +200,14 @@ public abstract class EclairActivity extends AppCompatActivity {
   public interface EncryptSeedCallback {
     void onEncryptSeedFailure(final String message);
     void onEncryptSeedSuccess();
+  }
+
+
+  public void goHome()
+  {
+    fragmentCommunicator.passData("success");
+    Toast.makeText(app, "Succcesssss....", Toast.LENGTH_SHORT).show();
+
   }
 
 }

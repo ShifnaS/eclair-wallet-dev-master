@@ -247,10 +247,13 @@ public class SummaryPurchaseFragment extends Fragment {
                               bundle.putString("day", ""+md[0]);
 
                               fragment.setArguments(bundle);
+
                               FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                              //fragmentManager.popBackStackImmediate();
+
                               FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                               fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-                              fragmentTransaction.addToBackStack(null);
+                             // fragmentTransaction.addToBackStack(null);
                               fragmentTransaction.commit();
                             }
                             else

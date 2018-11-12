@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +32,12 @@ import fr.acinq.eclair.wallet.activities.SendPaymentActivity;
 import fr.acinq.eclair.wallet.databinding.FragmentConfirmationBinding;
 import fr.acinq.eclair.wallet.events.Message;
 import fr.acinq.eclair.wallet.presenter.ConfirmationPresenter;
+import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmationFragment extends Fragment {
+public class ConfirmationFragment extends Fragment implements FragmentCommunicator {
 
     public ConfirmationFragment() {
         // Required empty public constructor
@@ -42,6 +46,13 @@ public class ConfirmationFragment extends Fragment {
   String invoice_id="";
   SharedPreferences sp;
   SharedPreferences.Editor ed;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+   // EventBus.getDefault().register(this);
+
+  }
 
   @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +88,12 @@ public class ConfirmationFragment extends Fragment {
               intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc);
               startActivity(intent);
 
-
+              Fragment fragment = new PAymentSuccessfullFragment();
+              FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+              fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+              //  fragmentTransaction.addToBackStack(null);
+              fragmentTransaction.commit();
             }
 
             @Override
@@ -96,10 +112,8 @@ public class ConfirmationFragment extends Fragment {
 
   @Subscribe
   public void onEvent(Message event){
-    Toast.makeText(getContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
+    Toast.makeText(getContext(), "Event///////////////////// "+event.getMessage(), Toast.LENGTH_SHORT).show();
   }
-
-
   public String getMonth(String month)
   {
     String rMonth="";
@@ -131,8 +145,13 @@ public class ConfirmationFragment extends Fragment {
 
   @Override
   public void onStop() {
-    super.onStop();
     EventBus.getDefault().unregister(this);
+    super.onStop();
+
   }
 
+  @Override
+  public void passData(String msg) {
+    Toast.makeText(getContext(), "hiiii "+msg, Toast.LENGTH_SHORT).show();
+  }
 }
