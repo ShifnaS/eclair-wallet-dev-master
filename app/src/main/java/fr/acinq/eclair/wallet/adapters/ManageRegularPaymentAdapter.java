@@ -52,7 +52,7 @@ public class ManageRegularPaymentAdapter extends RecyclerView.Adapter<ManageRegu
         else
         {
           String status="";
-          int flag=data.getInt("payment_status");
+          int flag=data.getInt("status");
           if(flag==1)
           {
             status="Yes";

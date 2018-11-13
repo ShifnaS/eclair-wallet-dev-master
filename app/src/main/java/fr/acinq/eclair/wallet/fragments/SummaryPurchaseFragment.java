@@ -1,9 +1,11 @@
 package fr.acinq.eclair.wallet.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.api.SingletonRequestQueue;
+import fr.acinq.eclair.wallet.app.Config;
 import fr.acinq.eclair.wallet.databinding.FragmentSummaryPurchaseBinding;
 import fr.acinq.eclair.wallet.models.LocalChannel;
 import fr.acinq.eclair.wallet.models.ScheduleDataList;
@@ -197,7 +200,10 @@ public class SummaryPurchaseFragment extends Fragment {
 
            /*   if(schedule_type.equals("1"))
               {*/
-                Map<String, String> postParam= new HashMap<>();
+              final String deviceId = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+              SharedPreferences pref = getContext().getSharedPreferences(Config.SHARED_PREF, 0);
+              String regId = pref.getString("regId", null);
+              Map<String, String> postParam= new HashMap<>();
                 String month_day=binding.tvDate.getText().toString().trim();
                 String md[]=month_day.split(" ");
                 postParam.put("paymentDay", md[0]);
@@ -206,8 +212,12 @@ public class SummaryPurchaseFragment extends Fragment {
                 postParam.put("schedule_id", schedule_id);
                 postParam.put("schedule_type", schedule_type);
                 postParam.put("qr_code", qr_code);
+                postParam.put("device_id", deviceId);
+                postParam.put("firebase_id", regId);
 
-                if(frequency.equals("2"))
+
+
+              if(frequency.equals("2"))
                 {
                   postParam.put("payment_month", md[3]);
                 }

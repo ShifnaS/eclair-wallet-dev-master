@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.text.DateFormat;
 
@@ -77,6 +78,17 @@ public class LNPaymentDetailsActivity extends EclairActivity {
       }
       mBinding.recipient.setValue(p.getRecipient());
       mBinding.desc.setValue(p.getDescription());
+      String data=p.getInvoice_id();
+      if(data.equals(""))
+      {
+        mBinding.next.setVisibility(View.GONE);
+      }
+      else
+      {
+        String d[]=data.split(",");
+        mBinding.next.setValue(d[1]);
+      }
+
       if (p.getAmountRequestedMsat() == 0) {
         // this is a donation
         mBinding.amountRequested.setValue(getString(R.string.paymentdetails_amount_requested_donation));

@@ -80,14 +80,22 @@ public class PaymentSuccessActivity extends EclairActivity {
     mCircleImage = findViewById(R.id.paymentsuccess_circle);
     mCheckImage = findViewById(R.id.paymentsuccess_check);
     mDescView_success = findViewById(R.id.paymentsuccess);
+    mDescView.setText(desc);
 
 
     if(intent.hasExtra(EXTRA_IVOICE_ID))
     {
-      mDescView.setText("");
-      mDescView_success.setText(desc);
+    /*  String nodeid=app.nodePublicKey();
+      Toast.makeText(app, "nodeId "+nodeid, Toast.LENGTH_SHORT).show();*/
 
-      String invoice_id=intent.getStringExtra(EXTRA_IVOICE_ID);
+      String data=intent.getStringExtra(EXTRA_IVOICE_ID);
+
+      String my[]=data.split(",");
+      String invoice_id=my[0];
+   //   mDescView.setText("");
+      mDescView_success.setText(my[1]);
+
+
       final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
       SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
       String regId = pref.getString("regId", null);
@@ -137,7 +145,6 @@ public class PaymentSuccessActivity extends EclairActivity {
     }
     else
     {
-      mDescView.setText(desc);
       Intent inten = new Intent(getBaseContext(), HomeActivity.class);
       inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(inten);

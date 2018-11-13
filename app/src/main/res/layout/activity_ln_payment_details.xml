@@ -129,6 +129,14 @@
           app:desc="@string/paymentdetails_desc_desc"
           app:label="@string/paymentdetails_desc_label"
           app:value="@string/unknown" />
+        <fr.acinq.eclair.wallet.customviews.DataRow
+          android:id="@+id/next"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:desc="@string/paymentdetails_desc_desc"
+          app:label="Next Payment On"
+          app:value="@string/unknown" />
+
 
         <fr.acinq.eclair.wallet.customviews.TitleBar
           android:layout_width="match_parent"
