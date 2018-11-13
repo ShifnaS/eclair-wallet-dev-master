@@ -21,6 +21,8 @@ import java.util.Calendar;
 
 import fr.acinq.eclair.wallet.R;
 
+import fr.acinq.eclair.wallet.activities.FragmentCommunicator;
+import fr.acinq.eclair.wallet.activities.HomeActivity;
 import fr.acinq.eclair.wallet.activities.SendPaymentActivity;
 import fr.acinq.eclair.wallet.databinding.FragmentConfirmationBinding;
 import fr.acinq.eclair.wallet.presenter.ConfirmationPresenter;
@@ -28,7 +30,7 @@ import fr.acinq.eclair.wallet.presenter.ConfirmationPresenter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmationFragment extends Fragment {
+public class ConfirmationFragment extends Fragment implements FragmentCommunicator {
 
   public ConfirmationFragment() {
     // Required empty public constructor
@@ -45,6 +47,9 @@ public class ConfirmationFragment extends Fragment {
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     FragmentConfirmationBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_confirmation, container, false);
+    new HomeActivity(this);
+
+
     View root=binding.getRoot();
     sp=PreferenceManager.getDefaultSharedPreferences(getContext());
     ed=sp.edit();
@@ -52,8 +57,7 @@ public class ConfirmationFragment extends Fragment {
     String amount=bundle.getString("amount");
     invoice_id=bundle.getString("invoice_id");
     day=bundle.getString("day");
-    String gMonth=bundle.getString("month");
-    month=getMonth(gMonth);
+    String month=bundle.getString("month");
 
   // Toast.makeText(getContext(), "day "+day+" month"+month, Toast.LENGTH_SHORT).show();
     TextView bt_amount=root.findViewById(R.id.amount);
@@ -70,17 +74,14 @@ public class ConfirmationFragment extends Fragment {
         Toast.makeText(getContext(), "Please wait until transaction complete", Toast.LENGTH_LONG).show();
         String payment_desc="Your next Payment will be on month: "+month+" day:"+day;
         bt_confirm.setEnabled(false);
+        bt_amount.setText("Confirmation of Payment Details "+amount+"BTC \n Do not press Back Button...Please wait until transaction complete");
+        bt_confirm.setBackgroundColor(getResources().getColor(R.color.primary_light_x1));
         Intent intent = new Intent(getContext(), SendPaymentActivity.class);
         intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
         intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc);
         startActivity(intent);
 
-        Fragment fragment = new PAymentSuccessfullFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-        //  fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+
       }
 
       @Override
@@ -97,30 +98,6 @@ public class ConfirmationFragment extends Fragment {
     return root;
   }
 
-
-  public String getMonth(String month)
-  {
-    String rMonth="";
-    Calendar c = Calendar.getInstance();
-    String[]monthName={"January","February","March", "April", "May", "June", "July",
-      "August", "September", "October", "November",
-      "December"};
-
-    for(int i=0;i<monthName.length;i++)
-    {
-      if(month.equals("December"))
-      {
-        rMonth="January";
-      }
-      else if(!month.equals("December")&&monthName[i].equalsIgnoreCase(month))
-      {
-        rMonth=monthName[i+1];
-      }
-
-    }
-    return  rMonth;
-  }
-
   @Override
   public void onStart() {
     super.onStart();
@@ -133,5 +110,14 @@ public class ConfirmationFragment extends Fragment {
   }
 
 
-
+  @Override
+  public void passData(String msg) {
+    //Toast.makeText(getContext(), "hiiii "+msg, Toast.LENGTH_SHORT).show();
+    Fragment fragment = new PAymentSuccessfullFragment();
+    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+    //  fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.commit();
+  }
 }

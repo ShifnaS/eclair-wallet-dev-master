@@ -103,11 +103,12 @@ public class NotificationActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////
     onItemClick=new OnItemClick() {
       @Override
-      public void onClick(String invoice_id) {
-        Toast.makeText(getApplicationContext(), "invoice id "+invoice_id, Toast.LENGTH_SHORT).show();
+      public void onClick(String invoice_id,String payment_date) {
+       /// Toast.makeText(getApplicationContext(), "invoice id "+invoice_id, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), SendPaymentActivity.class);
         intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
-        intent.putExtra(SendPaymentActivity.EXTRA_D, "payment_desc");
+        intent.putExtra(SendPaymentActivity.EXTRA_D, "Your Next Payment Date is "+payment_date);
+        intent.putExtra(SendPaymentActivity.EXTRA_NOTIFICATION, "notification");
         startActivity(intent);
       }
     };
@@ -116,6 +117,6 @@ public class NotificationActivity extends AppCompatActivity {
   }
 
   public interface OnItemClick {
-    void onClick (String invoice_id);
+    void onClick (String invoice_id,String payment_date);
   }
 }

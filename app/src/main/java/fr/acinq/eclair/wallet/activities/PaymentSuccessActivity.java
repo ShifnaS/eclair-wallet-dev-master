@@ -35,18 +35,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.api.SingletonRequestQueue;
 import fr.acinq.eclair.wallet.app.Config;
-import fr.acinq.eclair.wallet.events.Message;
-import fr.acinq.eclair.wallet.fragments.ConfirmationFragment;
-import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 
-public class PaymentSuccessActivity extends EclairActivity {
+public class PaymentSuccessActivity extends EclairActivity  {
 
   public static final String EXTRA_PAYMENTSUCCESS_AMOUNT = "fr.acinq.eclair.wallet.EXTRA_PAYMENTSUCCESS_AMOUNT";
   public static final String EXTRA_PAYMENTSUCCESS_DESC = "fr.acinq.eclair.wallet.EXTRA_PAYMENTSUCCESS_DESC";
@@ -59,17 +55,21 @@ public class PaymentSuccessActivity extends EclairActivity {
   private ImageView mCheckImage;
   private TextView mDescView;
   private TextView mDescView_success;
-
-
+  static FragmentCommunicator fragmentCommunicator;
 
   public PaymentSuccessActivity() {
   }
+
+  public PaymentSuccessActivity( FragmentCommunicator fragmentCommunicator) {
+    this.fragmentCommunicator=fragmentCommunicator;
+  }
+
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_payment_success);
-
     //fragmentListner=(FragmentListner)this;
     //HomeActivity homeActivity=new HomeActivity();
 
@@ -91,8 +91,8 @@ public class PaymentSuccessActivity extends EclairActivity {
       String data=intent.getStringExtra(EXTRA_IVOICE_ID);
 
       String my[]=data.split(",");
+
       String invoice_id=my[0];
-   //   mDescView.setText("");
       mDescView_success.setText(my[1]);
 
 
@@ -116,6 +116,16 @@ public class PaymentSuccessActivity extends EclairActivity {
             {
               if (response.equalsIgnoreCase("success"))
               {
+                if(my.length==3)
+                {
+                    Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else
+                {
+                  fragmentCommunicator.passData("success");
+                }
 
 
 

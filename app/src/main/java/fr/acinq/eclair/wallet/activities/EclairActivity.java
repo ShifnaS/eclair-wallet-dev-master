@@ -47,7 +47,6 @@ import fr.acinq.eclair.wallet.events.Message;
 import fr.acinq.eclair.wallet.fragments.ConfirmationFragment;
 import fr.acinq.eclair.wallet.fragments.PAymentSuccessfullFragment;
 import fr.acinq.eclair.wallet.fragments.PinDialog;
-import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 import fr.acinq.eclair.wallet.utils.WalletUtils;
 

@@ -141,8 +141,8 @@ public class NewRegularPaymentFragment extends Fragment {
                       {
                         try
                         {
-                          String schedule_id = "",_id, note="",schedule_type = "", service_name = "", immediate_cost = "", payment_month = "", payment_date = "", qr_code = "", amount = "", frequency = "";
-                          int stat;
+                          String schedule_id = "",_id, note="",schedule_type = "", service_name = "", immediate_cost = "",  payment_date = "", qr_code = "", amount = "", frequency = "";
+                          int stat,payment_month;
                           String status = jo.getString("status");
                           boolean error = jo.getBoolean("error");
                          // Toast.makeText(getContext(), "status "+status, Toast.LENGTH_SHORT).show();
@@ -182,9 +182,9 @@ public class NewRegularPaymentFragment extends Fragment {
                                   immediate_cost = "";
                                 }
                                 if (jsonObject.has("payment_month")) {
-                                  payment_month = jsonObject.getString("payment_month");
+                                  payment_month = jsonObject.getInt("payment_month");
                                 } else {
-                                  payment_month = "";
+                                  payment_month = 0;
                                 }
                                 if (jsonObject.has("payment_day")) {
                                   payment_date = jsonObject.getString("payment_day");
@@ -239,7 +239,7 @@ public class NewRegularPaymentFragment extends Fragment {
                                   bundle.putString("qr_code", qr_code);
                                   bundle.putString("schedule_type", schedule_type);
                                   bundle.putString("schedule_id", schedule_id);
-                                  bundle.putString("payment_month", payment_month);
+                                  bundle.putInt("payment_month", payment_month);
                                   bundle.putString("note", note);
                                   fragment.setArguments(bundle);
                                   FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

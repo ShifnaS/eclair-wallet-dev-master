@@ -11,7 +11,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.acinq.eclair.wallet.activities.HomeActivity;
+import fr.acinq.eclair.wallet.activities.NotificationActivity;
 import fr.acinq.eclair.wallet.app.Config;
 import fr.acinq.eclair.wallet.utils.NotificationUtils;
 
@@ -99,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationUtils.playNotificationSound();
       } else {
         // app is in background, show the notification in notification tray
-        Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
         resultIntent.putExtra("message", message);
 
         // check for image attachment

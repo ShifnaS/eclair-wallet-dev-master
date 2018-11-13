@@ -84,14 +84,13 @@ import fr.acinq.eclair.wallet.fragments.ChannelsListFragment;
 import fr.acinq.eclair.wallet.fragments.LightningFragment;
 import fr.acinq.eclair.wallet.fragments.PaymentsListFragment;
 import fr.acinq.eclair.wallet.fragments.ReceivePaymentFragment;
-import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 import fr.acinq.eclair.wallet.utils.NotificationUtils;
 import fr.acinq.eclair.wallet.utils.WalletUtils;
 
 import static fr.acinq.eclair.wallet.adapters.LocalChannelItemHolder.EXTRA_CHANNEL_ID;
 
-public class HomeActivity extends EclairActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class HomeActivity extends EclairActivity implements SharedPreferences.OnSharedPreferenceChangeListener,FragmentCommunicator {
 
   private final Logger log = LoggerFactory.getLogger(HomeActivity.class);
 
@@ -105,7 +104,7 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
   private ViewStub mStubIntro;
   private int introStep = 0;
   private boolean canSendPayments = false;
-
+  static  FragmentCommunicator fragmentCommunicator;
   private PaymentsListFragment mPaymentsListFragment;
   private ChannelsListFragment mChannelsListFragment;
   private LightningFragment mLightningFragment;
@@ -118,13 +117,18 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
 
 
+
   public HomeActivity() {
+  }
+  public HomeActivity( FragmentCommunicator fragmentCommunicator) {
+    this.fragmentCommunicator=fragmentCommunicator;
   }
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+    new PaymentSuccessActivity(this);
 
     setSupportActionBar(mBinding.toolbar);
     ActionBar ab = getSupportActionBar();
@@ -137,16 +141,6 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     }
 
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    // --- check initial app state
-
-
-   /* fragmentListner=new FragmentListner() {
-      @Override
-      public void onInputASent(String a) {
-        Toast.makeText(app, "hahahaha "+a, Toast.LENGTH_SHORT).show();
-      }
-    };
-*/
 
     if (prefs.getBoolean(Constants.SETTING_SHOW_INTRO, true)) {
       mStubIntro = findViewById(R.id.home_stub_intro);
@@ -183,22 +177,15 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
         startActivity(channelDetailsIntent);
       }
     } else {
-      // app may be started with a payment request intent
       readURIIntent(getIntent());
     }
-
-
-  //  mBinding.rawJson.getText().toString();
 
 
     mRegistrationBroadcastReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
 
-        // checking for type intent filter
         if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-          // gcm successfully registered
-          // now subscribe to `global` topic to receive app wide notifications
           FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
 
           displayFirebaseRegId();
@@ -210,30 +197,11 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
           Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
 
-          //txtMessage.setText(message);
         }
-      /*  else if (intent.getAction().equals("Payment")) {
-          // new push notification is received
-
-          String message = intent.getStringExtra("message");
-
-          Toast.makeText(getApplicationContext(), "Message " + message, Toast.LENGTH_LONG).show();
-
-          //txtMessage.setText(message);
-        }*/
-
-
-
 
       }
     };
 
-
-
-
-
-
-   // displayFirebaseRegId();
 
   }
 
@@ -707,6 +675,13 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     mBinding.homeConnectionStatus.setVisibility(View.VISIBLE);
   }
 
+  @Override
+  public void passData(String msg) {
+
+    //Toast.makeText(app, "hiiiii "+msg, Toast.LENGTH_SHORT).show();
+    fragmentCommunicator.passData(msg);
+
+  }
 
 
   private class HomePagerAdapter extends FragmentStatePagerAdapter {

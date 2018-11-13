@@ -54,7 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       {
         service_name=service.getString("service_name");
       }
-
+      String payment_date=data.getString("payment_date");
       holder.service.setText(service_name);
       holder.date.setText(data.getString("payment_date"));
       holder.amount.setText(data.getString("regular_amount"));
@@ -63,7 +63,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       holder.bt_pay.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          onItemClick.onClick(invoice_id);
+          onItemClick.onClick(invoice_id,payment_date);
         }
       });
     }

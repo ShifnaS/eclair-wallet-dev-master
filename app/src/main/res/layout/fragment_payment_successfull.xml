@@ -27,7 +27,7 @@
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Do not press Back Button...\nPlease Wait Until Transaction Complete "/>
+            android:text="Payment Successfull"/>
 
 
             <Button

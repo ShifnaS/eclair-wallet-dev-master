@@ -49,12 +49,11 @@ import scala.Int;
 
 public class SummaryPurchaseFragment extends Fragment {
 
+    int monthInt=0;
     String[] day;
     String dayy="1";
-    ScheduleDataList dataList;
-    String f="";
     String s="";
-    String mm="";
+    int mm=0;
     private SummaryPurchaseViewModel summaryPurchaseViewModel,summaryPurchaseViewModel1,summaryPurchaseViewModel2;
     public SummaryPurchaseFragment() {
         // Required empty public constructor
@@ -80,7 +79,7 @@ public class SummaryPurchaseFragment extends Fragment {
         String qr_code=bundle.getString("qr_code");
         String schedule_type=bundle.getString("schedule_type");
         String schedule_id=bundle.getString("schedule_id");
-        String payment_month=bundle.getString("payment_month");
+        int payment_month=bundle.getInt("payment_month");
         String note=bundle.getString("note");
        // String invoice_id=bundle.getString("invoice_id");
 
@@ -118,16 +117,17 @@ public class SummaryPurchaseFragment extends Fragment {
             s="Summary of Purchase \n\n" +
               "Payment Name= "+note+" \n\n Cost = "+amt_btc +"\n Frequency = monthly \n\n ";
               dayy="1 of every month";
-              mm="";
+              mm=0;
           }
           else
           {
             //annually
-            String month=getMonth(1);
+            int m=getMonth(1);
+            String month=getMonthInString(m);
             s="Summary of Purchase \n\n" +
               "Payment Name= "+note+" \n\n Cost = "+amt_btc +"\n Frequency = annually \n\n ";
             dayy="1 of the "+month;
-            mm=month;
+            mm=m;
 
           }
         }
@@ -153,7 +153,7 @@ public class SummaryPurchaseFragment extends Fragment {
               dayy=payment_day+" of the every month";
 
             }
-            mm="";
+            mm=0;
 
 
           }
@@ -162,17 +162,19 @@ public class SummaryPurchaseFragment extends Fragment {
             //annually
             if(service_name.equalsIgnoreCase("A"))
             {
+              String month=getMonthInString(payment_month);
               s="Summary of Purchase \n\n Name – Service "+service_name+" \n Immediate Payment Cost = "+immediate_cost+" \n\n\n\n" +
                 "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
-              dayy=payment_day+" of the "+payment_month;
+              dayy=payment_day+" of the "+month;
               mm=payment_month;
 
             }
             else
             {
+              String month=getMonthInString(payment_month);
               s="Summary of Purchase \n\n Name – Service "+service_name+" \n\n\n\n" +
                 "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
-              dayy=payment_day+" of the "+payment_month;
+              dayy=payment_day+" of the "+month;
               mm=payment_month;
 
             }
@@ -216,10 +218,20 @@ public class SummaryPurchaseFragment extends Fragment {
                 postParam.put("firebase_id", regId);
 
 
-
-              if(frequency.equals("2"))
+                if(frequency.equals("2"))
                 {
-                  postParam.put("payment_month", md[3]);
+                  postParam.put("payment_month", ""+mm);
+                 // int month=getMonthInString(md[3]);
+                  monthInt=mm;
+                }
+                else
+                {
+                  int day=Integer.parseInt(md[0]);
+                  int month=getMonth(day);
+                  monthInt=month;
+                 // Toast.makeText(getContext(), "month "+month+" day "+day, Toast.LENGTH_SHORT).show();
+                  postParam.put("payment_month", ""+month);
+
                 }
                 try
                 {
@@ -248,12 +260,12 @@ public class SummaryPurchaseFragment extends Fragment {
                             if(jsonObject.getString("message").equals("success"))
                             {
                               invoice_id=jsonObject.getString("response");
+                              String month=getMonthInString(monthInt);
                               Fragment fragment = new ConfirmationFragment();
-
                               Bundle bundle = new Bundle();
                               bundle.putString("invoice_id", invoice_id);
                               bundle.putString("amount", ""+amt_btc);
-                              bundle.putString("month", ""+mm);
+                              bundle.putString("month", ""+month);
                               bundle.putString("day", ""+md[0]);
 
                               fragment.setArguments(bundle);
@@ -288,9 +300,7 @@ public class SummaryPurchaseFragment extends Fragment {
                       }
                     }, error -> VolleyLog.d("VOLLEY EROOR", "Error: " + error.getMessage())) {
 
-                    /**
-                     * Passing some request headers
-                     * */
+
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
                       HashMap<String, String> headers = new HashMap<String, String>();
@@ -338,18 +348,19 @@ public class SummaryPurchaseFragment extends Fragment {
               s="Summary of Purchase \n\n" +
               "Payment Name= "+note+" \n\n Cost = "+amt_btc +"\n Frequency = monthly \n\n ";
               dayy=day[newval]+" of every month";
-              mm="";
+              mm=0;
             }
             else
             {
               //annually
               String m=day[newval];
               int mmm=Integer.parseInt(m);
-              String month=getMonth(mmm);
+              int m1=getMonth(mmm);
+              String month=getMonthInString(m1);
               s="Summary of Purchase \n\n" +
               "Payment Name= "+note+" \n\n  Cost = "+amt_btc +"\n Frequency = annually \n\n ";
               dayy=day[newval]+" of the "+month;
-              mm=month;
+              mm=m1;
 
             }
           }
@@ -365,7 +376,7 @@ public class SummaryPurchaseFragment extends Fragment {
                 s="Summary of Purchase \n\n Name – Service "+service_name+" \n Immediate Payment Cost = "+immediate_cost+" \n\n\n\n" +
                   "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
                 dayy=payment_day+" of the every month";
-                mm="";
+                mm=0;
               }
               else
               {
@@ -373,7 +384,7 @@ public class SummaryPurchaseFragment extends Fragment {
                 s="Summary of Purchase \n\n Name – Service "+service_name+" \n\n\n\n" +
                   "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
                 dayy=payment_day+" of the every month";
-                mm="";
+                mm=0;
               }
 
             }
@@ -382,6 +393,8 @@ public class SummaryPurchaseFragment extends Fragment {
               //annually
               if(service_name.equalsIgnoreCase("A"))
               {
+                String month=getMonthInString(payment_month);
+
                 s="Summary of Purchase \n\n Name – Service "+service_name+" \n Immediate Payment Cost = "+immediate_cost+" \n\n\n\n" +
                   "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
                 dayy=payment_day+" of the "+payment_month;
@@ -389,6 +402,8 @@ public class SummaryPurchaseFragment extends Fragment {
               }
               else
               {
+                String month=getMonthInString(payment_month);
+
                 s="Summary of Purchase \n\n Name – Service "+service_name+" \n\n\n\n" +
                   "Cost = "+amt_btc +"\n Frequency = monthly\n\n" ;
                 dayy=payment_day+" of the "+payment_month;
@@ -406,28 +421,33 @@ public class SummaryPurchaseFragment extends Fragment {
 
         return root;
     }
-  public String getMonth(int day)
+  public int getMonth(int day)
   {
-    String month="";
+    int month;
     Calendar c = Calendar.getInstance();
-    String[]monthName={"January","February","March", "April", "May", "June", "July",
-      "August", "September", "October", "November",
-      "December"};
+
 
     int dom = c.get(Calendar.DAY_OF_MONTH);
     if(day<dom)
     {
-      month=monthName[c.get(Calendar.MONTH)+1];
+      month=c.get(Calendar.MONTH)+2;
 
     }
     else
     {
-      month=monthName[c.get(Calendar.MONTH)];
+      month=c.get(Calendar.MONTH)+1;
 
     }
 
     return  month;
   }
+  public String getMonthInString(int m)
+  {
+    String[]monthName={"January","February","March", "April", "May", "June", "July",
+      "August", "September", "October", "November",
+      "December"};
 
+    return  monthName[m-1];
+  }
 
 }

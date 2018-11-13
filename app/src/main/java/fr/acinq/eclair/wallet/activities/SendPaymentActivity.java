@@ -54,6 +54,8 @@ public class SendPaymentActivity extends EclairActivity
 
   public static final String EXTRA_INVOICE = BuildConfig.APPLICATION_ID + ".EXTRA_INVOICE";
   public static final String EXTRA_D = BuildConfig.APPLICATION_ID + ".EXTRA_D";
+  public static final String EXTRA_NOTIFICATION = BuildConfig.APPLICATION_ID + ".EXTRA_NOTIFICATION";
+
   private final static List<String> LIGHTNING_PREFIXES = Arrays.asList("lightning:", "lightning://");
   public final static int LOADING = 0;
   public final static int READ_ERROR = 1;
@@ -77,6 +79,7 @@ public class SendPaymentActivity extends EclairActivity
   private FeeRating feeRatingState = Constants.FEE_RATING_FAST;
   private boolean capLightningFees = true;
   private PinDialog pinDialog;
+  String notification="";
 
   @Override
   public void processBitcoinInvoiceFinish(final BitcoinURI bitcoinURI) {
@@ -399,8 +402,17 @@ public class SendPaymentActivity extends EclairActivity
             }
             else
             {
-              newPayment.setInvoice_id(invoiceAsString+","+goToFrag);
-              newPayment.setDescription(invoiceAsString);
+              if(notification.equals(""))
+              {
+                newPayment.setInvoice_id(invoiceAsString+","+goToFrag);
+                newPayment.setDescription(invoiceAsString);
+              }
+              else
+              {
+                newPayment.setInvoice_id(invoiceAsString+","+goToFrag+","+notification);
+                newPayment.setDescription(invoiceAsString);
+              }
+
 
               // newPayment.setDescription("");
             }
@@ -596,6 +608,15 @@ public class SendPaymentActivity extends EclairActivity
     else
     {
       goToFrag="";
+    }
+
+    if(intent.hasExtra(EXTRA_NOTIFICATION))
+    {
+      notification=intent.getStringExtra(EXTRA_NOTIFICATION).trim();
+    }
+    else
+    {
+      notification="";
     }
     log.info("initializing payment with invoice={}", invoiceAsString);
     if (invoiceAsString != null) {
