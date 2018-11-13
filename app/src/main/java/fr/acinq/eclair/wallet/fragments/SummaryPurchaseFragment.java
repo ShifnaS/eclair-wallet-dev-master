@@ -215,7 +215,7 @@ public class SummaryPurchaseFragment extends Fragment {
                 {
 
 
-
+                  Log.e("Payment data","Day "+md[0]+"Month "+md[3]);
                   VolleyLog.DEBUG = true;
                   RequestQueue queue = SingletonRequestQueue.getInstance(getContext()).getRequestQueue();
 

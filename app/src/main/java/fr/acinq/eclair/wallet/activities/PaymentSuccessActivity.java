@@ -42,6 +42,8 @@ import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.api.SingletonRequestQueue;
 import fr.acinq.eclair.wallet.app.Config;
 import fr.acinq.eclair.wallet.events.Message;
+import fr.acinq.eclair.wallet.fragments.ConfirmationFragment;
+import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 
 public class PaymentSuccessActivity extends EclairActivity {
@@ -56,11 +58,20 @@ public class PaymentSuccessActivity extends EclairActivity {
   private ImageView mCircleImage;
   private ImageView mCheckImage;
   private TextView mDescView;
+  private TextView mDescView_success;
+
+
+
+  public PaymentSuccessActivity() {
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_payment_success);
+
+    //fragmentListner=(FragmentListner)this;
+    //HomeActivity homeActivity=new HomeActivity();
 
     Intent intent = getIntent();
     String desc = intent.getStringExtra(EXTRA_PAYMENTSUCCESS_DESC);
@@ -68,19 +79,13 @@ public class PaymentSuccessActivity extends EclairActivity {
     mDescView = findViewById(R.id.paymentsuccess_desc);
     mCircleImage = findViewById(R.id.paymentsuccess_circle);
     mCheckImage = findViewById(R.id.paymentsuccess_check);
-    mDescView.setText(desc);
-    String resp="";
-    //String m=my_msg;
-    //Toast.makeText(app, "message!!!!!!! "+my_msg, Toast.LENGTH_SHORT).show();
-
+    mDescView_success = findViewById(R.id.paymentsuccess);
 
 
     if(intent.hasExtra(EXTRA_IVOICE_ID))
     {
-
-      //EventBus.get
-      //EventBus.get getDefault().post(new Message("hello world"));
-
+      mDescView.setText("");
+      mDescView_success.setText(desc);
 
       String invoice_id=intent.getStringExtra(EXTRA_IVOICE_ID);
       final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -103,9 +108,8 @@ public class PaymentSuccessActivity extends EclairActivity {
             {
               if (response.equalsIgnoreCase("success"))
               {
-               // Toast.makeText(this, "message "+response, Toast.LENGTH_SHORT).show();
-                //EventBus.getDefault().post(new Message("success"));
-               goHome();
+
+
 
               }
               else
@@ -133,15 +137,12 @@ public class PaymentSuccessActivity extends EclairActivity {
     }
     else
     {
+      mDescView.setText(desc);
       Intent inten = new Intent(getBaseContext(), HomeActivity.class);
       inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(inten);
       finish();
     }
-
-
-
-
 
     tada();
     dismissHandler = new Handler();
@@ -171,18 +172,4 @@ public class PaymentSuccessActivity extends EclairActivity {
   }
 
 
-
-
-/*
-  @Override
-  protected void onStart() {
-    super.onStart();
-    EventBus.getDefault().register(this);
-  }
-
-  @Override
-  protected void onStop() {
-    super.onStop();
-    EventBus.getDefault().unregister(this);
-  }*/
 }

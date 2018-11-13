@@ -1,15 +1,11 @@
 package fr.acinq.eclair.wallet.fragments;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,100 +16,88 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Calendar;
 
 import fr.acinq.eclair.wallet.R;
-import fr.acinq.eclair.wallet.activities.HomeActivity;
+
 import fr.acinq.eclair.wallet.activities.SendPaymentActivity;
 import fr.acinq.eclair.wallet.databinding.FragmentConfirmationBinding;
-import fr.acinq.eclair.wallet.events.Message;
 import fr.acinq.eclair.wallet.presenter.ConfirmationPresenter;
-import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmationFragment extends Fragment implements FragmentCommunicator {
+public class ConfirmationFragment extends Fragment {
 
-    public ConfirmationFragment() {
-        // Required empty public constructor
-    }
+  public ConfirmationFragment() {
+    // Required empty public constructor
+  }
   String day="",month;
   String invoice_id="";
   SharedPreferences sp;
   SharedPreferences.Editor ed;
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-   // EventBus.getDefault().register(this);
 
-  }
 
   @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        FragmentConfirmationBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_confirmation, container, false);
-        View root=binding.getRoot();
-        sp=PreferenceManager.getDefaultSharedPreferences(getContext());
-        ed=sp.edit();
-        Bundle bundle = getArguments();
-        String amount=bundle.getString("amount");
-        invoice_id=bundle.getString("invoice_id");
-        day=bundle.getString("day");
-        String gMonth=bundle.getString("month");
-        month=getMonth(gMonth);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    FragmentConfirmationBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_confirmation, container, false);
+    View root=binding.getRoot();
+    sp=PreferenceManager.getDefaultSharedPreferences(getContext());
+    ed=sp.edit();
+    Bundle bundle = getArguments();
+    String amount=bundle.getString("amount");
+    invoice_id=bundle.getString("invoice_id");
+    day=bundle.getString("day");
+    String gMonth=bundle.getString("month");
+    month=getMonth(gMonth);
 
-        Toast.makeText(getContext(), "day "+day+" month"+month, Toast.LENGTH_SHORT).show();
-        TextView bt_amount=root.findViewById(R.id.amount);
-        Button bt_confirm=root.findViewById(R.id.confirm);
+  // Toast.makeText(getContext(), "day "+day+" month"+month, Toast.LENGTH_SHORT).show();
+    TextView bt_amount=root.findViewById(R.id.amount);
+    Button bt_confirm=root.findViewById(R.id.confirm);
 
-        bt_amount.setText("Confirmation of Payment Details "+amount+"BTC");
+    bt_amount.setText("Confirmation of Payment Details "+amount+"BTC");
 
 
 
-        binding.setConfirmationPresenter(new ConfirmationPresenter() {
-            @Override
-            public void confirm() {
-              Toast.makeText(getContext(), "Please wait until transaction complete", Toast.LENGTH_LONG).show();
-              String payment_desc="Your next Payment will be on month: "+month+" day:"+day;
-              bt_confirm.setEnabled(false);
-              Intent intent = new Intent(getContext(), SendPaymentActivity.class);
-              intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
-              intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc);
-              startActivity(intent);
 
-              Fragment fragment = new PAymentSuccessfullFragment();
-              FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-              fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-              //  fragmentTransaction.addToBackStack(null);
-              fragmentTransaction.commit();
-            }
+    binding.setConfirmationPresenter(new ConfirmationPresenter() {
+      @Override
+      public void confirm() {
+        Toast.makeText(getContext(), "Please wait until transaction complete", Toast.LENGTH_LONG).show();
+        String payment_desc="Your next Payment will be on month: "+month+" day:"+day;
+        bt_confirm.setEnabled(false);
+        Intent intent = new Intent(getContext(), SendPaymentActivity.class);
+        intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
+        intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc);
+        startActivity(intent);
 
-            @Override
-            public void cancel() {
+        Fragment fragment = new PAymentSuccessfullFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+        //  fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+      }
 
-            }
+      @Override
+      public void cancel() {
 
-          @Override
-          public void back() {
+      }
 
-          }
-        });
+      @Override
+      public void back() {
 
-        return root;
-    }
+      }
+    });
 
-  @Subscribe
-  public void onEvent(Message event){
-    Toast.makeText(getContext(), "Event///////////////////// "+event.getMessage(), Toast.LENGTH_SHORT).show();
+    return root;
   }
+
+
   public String getMonth(String month)
   {
     String rMonth="";
@@ -140,18 +124,14 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
   @Override
   public void onStart() {
     super.onStart();
-    EventBus.getDefault().register(this);
   }
 
   @Override
   public void onStop() {
-    EventBus.getDefault().unregister(this);
     super.onStop();
 
   }
 
-  @Override
-  public void passData(String msg) {
-    Toast.makeText(getContext(), "hiiii "+msg, Toast.LENGTH_SHORT).show();
-  }
+
+
 }

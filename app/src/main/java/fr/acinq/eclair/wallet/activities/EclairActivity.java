@@ -63,6 +63,7 @@ public abstract class EclairActivity extends AppCompatActivity {
     return super.getPreferences(mode);
   }
   FragmentCommunicator fragmentCommunicator;
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
    // EventBus.getDefault().register(this);
@@ -205,10 +206,13 @@ public abstract class EclairActivity extends AppCompatActivity {
 
   public void goHome()
   {
-    fragmentCommunicator.passData("success");
+
     Toast.makeText(app, "Succcesssss....", Toast.LENGTH_SHORT).show();
 
   }
+
+
+
 
 }
 

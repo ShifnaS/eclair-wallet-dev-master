@@ -84,6 +84,7 @@ import fr.acinq.eclair.wallet.fragments.ChannelsListFragment;
 import fr.acinq.eclair.wallet.fragments.LightningFragment;
 import fr.acinq.eclair.wallet.fragments.PaymentsListFragment;
 import fr.acinq.eclair.wallet.fragments.ReceivePaymentFragment;
+import fr.acinq.eclair.wallet.services.FragmentCommunicator;
 import fr.acinq.eclair.wallet.utils.Constants;
 import fr.acinq.eclair.wallet.utils.NotificationUtils;
 import fr.acinq.eclair.wallet.utils.WalletUtils;
@@ -114,6 +115,12 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
   private final Animation mBlinkingAnimation = new AlphaAnimation(0.3f, 1);
   private final Animation mRotatingAnimation = new RotateAnimation(0, -360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
     0.5f);
+
+
+
+  public HomeActivity() {
+  }
+
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -133,8 +140,13 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     // --- check initial app state
 
 
-
-
+   /* fragmentListner=new FragmentListner() {
+      @Override
+      public void onInputASent(String a) {
+        Toast.makeText(app, "hahahaha "+a, Toast.LENGTH_SHORT).show();
+      }
+    };
+*/
 
     if (prefs.getBoolean(Constants.SETTING_SHOW_INTRO, true)) {
       mStubIntro = findViewById(R.id.home_stub_intro);
@@ -200,6 +212,19 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
           //txtMessage.setText(message);
         }
+      /*  else if (intent.getAction().equals("Payment")) {
+          // new push notification is received
+
+          String message = intent.getStringExtra("message");
+
+          Toast.makeText(getApplicationContext(), "Message " + message, Toast.LENGTH_LONG).show();
+
+          //txtMessage.setText(message);
+        }*/
+
+
+
+
       }
     };
 
@@ -713,5 +738,7 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
   {
     void make_regular();
   }
+
+
 
 }
