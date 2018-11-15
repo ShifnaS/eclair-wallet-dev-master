@@ -129,7 +129,7 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     super.onCreate(savedInstanceState);
     mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
     new PaymentSuccessActivity(this);
-
+    //new PaymentFailureActivity(this);
     setSupportActionBar(mBinding.toolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(false);
@@ -683,6 +683,12 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
   }
 
+ /* @Override
+  public void paymentError(String error) {
+    Toast.makeText(app, "Error....."+error, Toast.LENGTH_SHORT).show();
+
+  }
+*/
 
   private class HomePagerAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList;

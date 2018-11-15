@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="paymentSuccess"
-            type="fr.acinq.eclair.wallet.presenter.PaymentSuccess"/>
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="paymentSuccess"
+      type="fr.acinq.eclair.wallet.presenter.PaymentSuccess" />
+  </data>
+
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:fillViewport="true">
+
     <FrameLayout
+      android:id="@+id/content_notification"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?android:windowBackground"
+      android:orientation="vertical"
+
+      >
+
+      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
-        android:id="@+id/content_notification"
-        android:background="?android:windowBackground"
+        android:layout_margin="50dp"
+     >
 
-        >
 
-        <LinearLayout
-          android:layout_marginTop="50dp"
+
+
+          <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="300dp"
-                    android:layout_height="170dp"
-                  android:textSize="@dimen/textSize"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_corner_table"
+            android:gravity="center_vertical"
+            android:hint="payment successfull \n \n \n \n Thank You For using Lightning Collect"
+            android:textAlignment="center"
+            android:textColor="@color/grey_4"
+            android:textColorHint="@color/grey_4"
+            android:textSize="@dimen/textSize" />
 
 
-                  android:background="@drawable/rounded_corner_button"
-                    android:gravity="center_vertical"
-                    android:hint="payment successfull \n \n \n \n Thank You For using Lightning Collect"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_4"
-                    android:textColorHint="@color/grey_4" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="70dp"
-              android:textSize="@dimen/textSize"
-
-              android:layout_height="40dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/rounded_corner_green"
-                android:onClick="@{(v)->paymentSuccess.ok()}"
-                android:text="@string/ok"
-                android:textColor="@color/white" />
-        </LinearLayout>
+        <Button
+          android:id="@+id/cancel"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="20dp"
+          android:background="@drawable/rounded_corner_green"
+          android:onClick="@{(v)->paymentSuccess.ok()}"
+          android:text="@string/ok"
+          android:textColor="@color/white"
+          android:textSize="@dimen/textSize" />
+      </LinearLayout>
 
     </FrameLayout>
 

@@ -3,6 +3,7 @@ package fr.acinq.eclair.wallet.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,7 +42,8 @@ public class NotificationActivity extends AppCompatActivity {
     recyclerView=findViewById(R.id.recyclerview);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // get the reference of Toolbar
     setSupportActionBar(toolbar); // Setting/replace toolbar as the ActionBar
-
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
     final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
     Date cDate = new Date();
     String date = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
@@ -97,9 +100,6 @@ public class NotificationActivity extends AppCompatActivity {
     queue.add(getRequest);
 
 
-
-
-
     ////////////////////////////////////////////////////
     onItemClick=new OnItemClick() {
       @Override
@@ -118,5 +118,24 @@ public class NotificationActivity extends AppCompatActivity {
 
   public interface OnItemClick {
     void onClick (String invoice_id,String payment_date);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+
+
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        // todo: goto back activity from here
+
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 }

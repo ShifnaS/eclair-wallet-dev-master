@@ -50,6 +50,11 @@ public class PaymentFailureActivity extends EclairActivity {
   private Button mShowDetailed;
   private ImageButton mClose;
   private RecyclerView mErrorsView;
+  //static PaymentErrorListner paymentErrorListner;
+
+  /*public PaymentFailureActivity(PaymentErrorListner paymentErrorListner) {
+    this.paymentErrorListner=paymentErrorListner;
+  }*/
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -88,7 +93,21 @@ public class PaymentFailureActivity extends EclairActivity {
     }
 
     mClose = findViewById(R.id.paymentfailure_close);
-    mClose.setOnClickListener(view -> finish());
+   /* mClose.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+      //  paymentErrorListner.paymentError("fail");
+       *//* Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        startActivity(i);
+        finish();*//*
+      }
+    });*/
+    mClose.setOnClickListener(view ->
+
+     // Intent intent=new Inte
+
+      finish()
+    );
 
     // animation
     final ImageView mSadImage = findViewById(R.id.paymentfailure_sad);

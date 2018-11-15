@@ -38,13 +38,17 @@ public class ManageRegularPaymentAdapter extends RecyclerView.Adapter<ManageRegu
   public void onBindViewHolder(@NonNull ManageRegularPaymentAdapter.MyViewHolder holder, int position) {
     try
     {
-
         JSONObject data=list.getJSONObject(position);
 
       /*"_id": "5be037160537cc276c91606f",
       "regular_amount": 0.002,
       "payment_date": "2018-11-07T00:00:00.000Z"*/
-        if(data.has("regular_amount")&&data.has("payment_date"))
+        if(data.has("regular_amount")&&data.has("actual_payment_date")&&data.has("payment_date"))
+        {
+          holder.scedule_id.setText(data.getString("regular_amount"));
+          holder.status.setText(data.getString("actual_payment_date"));
+        }
+        else if(data.has("regular_amount")&&data.has("payment_date"))
         {
           holder.scedule_id.setText(data.getString("regular_amount"));
           holder.status.setText(data.getString("payment_date"));

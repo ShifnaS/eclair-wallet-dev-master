@@ -26,7 +26,7 @@
     android:layout_alignParentEnd="true"
     android:layout_marginBottom="8dp"
     android:layout_marginEnd="@dimen/space_md"
-    app:backgroundTint="@color/primary"
+    app:backgroundTint="@color/primaryColor"
     app:fabSize="mini" />
 
   <LinearLayout
@@ -43,7 +43,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:elevation="1dp"
-      android:background="@color/primary_dark_x3"
+      android:background="@color/primaryDarkColor"
       android:ellipsize="end"
       android:maxLines="1"
       android:layout_margin="4dp"

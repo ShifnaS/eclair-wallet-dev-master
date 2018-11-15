@@ -19,9 +19,9 @@
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="android:textColor">@color/grey_4</item>
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/primary</item>
-    <item name="colorAccent">@color/primary</item>
+    <item name="colorPrimary">@color/primaryColor</item>
+    <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+    <item name="colorAccent">@color/primaryColor</item>
     <item name="android:textColorSecondary">@color/white</item>
 
     <!-- forced white bg for consistency with older android versions -->
@@ -36,26 +36,26 @@
   <!-- theme for activity with primary color background and white text -->
   <style name="PrimaryBgTheme" parent="AppTheme">
     <item name="android:textColor">@color/white</item>
-    <item name="colorAccent">@color/primary_light_x3</item>
-    <item name="android:windowBackground">@color/primary</item>
-    <item name="android:colorBackground">@color/primary</item>
+    <item name="colorAccent">@color/secondaryColor</item>
+    <item name="android:windowBackground">@color/primaryColor</item>
+    <item name="android:colorBackground">@color/primaryColor</item>
     <item name="android:lineSpacingMultiplier">1.15</item>
   </style>
 
   <style name="PreferenceStyle" parent="Preference">
     <item name="android:actionBarStyle">@style/PreferenceStyle.ActionBar</item>
-    <item name="android:colorAccent">@color/primary</item>
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/primary</item>
-    <item name="android:statusBarColor">@color/primary</item>
+    <item name="android:colorAccent">@color/primaryColor</item>
+    <item name="colorPrimary">@color/primaryColor</item>
+    <item name="colorPrimaryDark">@color/primaryColor</item>
+    <item name="android:statusBarColor">@color/primaryColor</item>
     <item name="android:windowBackground">@color/white</item>
     <item name="android:textColor">@color/grey_4</item>
-    <item name="android:textColorSecondary">@color/grey_2</item>
+    <item name="android:textColorSecondary">@color/secondaryDarkColor</item>
   </style>
 
   <style name="ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    <item name="android:windowBackground">@color/primary</item>
-    <item name="android:background">@color/primary</item>
+    <item name="android:windowBackground">@color/primaryColor</item>
+    <item name="android:background">@color/primaryColor</item>
     <item name="android:displayOptions">showTitle</item>
     <item name="android:height">@dimen/action_bar_height</item>
   </style>
@@ -67,8 +67,8 @@
   </style>
 
   <style name="CustomDialog" parent="@style/Theme.AppCompat.Light.Dialog">
-    <item name="colorPrimary">@color/primary</item>
-    <item name="android:textColor">@color/grey_4</item>
+    <item name="colorPrimary">@color/primaryColor</item>
+    <item name="android:textColor">@color/primaryDarkColor</item>
     <item name="android:windowMinWidthMajor">85%</item>
     <item name="android:windowMinWidthMinor">85%</item>
     <item name="windowActionBar">false</item>
@@ -79,11 +79,11 @@
   <style name="FullScreenDialog" parent="@style/CustomDialog">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
-    <item name="android:windowBackground">@color/primary</item>
+    <item name="android:windowBackground">@color/primaryColor</item>
     <item name="windowActionBar">false</item>
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowIsFloating">false</item>
-    <item name="android:statusBarColor">@color/primary</item>
+    <item name="android:statusBarColor">@color/primaryColor</item>
   </style>
 
   <style name="CustomAlertDialog" parent="CustomDialog">
@@ -97,7 +97,7 @@
   </style>
 
   <style name="scanTheme" parent="zxing_CaptureTheme">
-    <item name="android:textColor">@color/grey_4</item>
+    <item name="android:textColor">@color/primaryDarkColor</item>
   </style>
 
   <style name="CustomTabStyle" parent="Widget.Design.TabLayout">
@@ -105,12 +105,12 @@
     <item name="tabPaddingEnd">12dp</item>
     <item name="tabBackground">?attr/selectableItemBackground</item>
     <item name="tabTextAppearance">@style/CustomTabText</item>
-    <item name="tabSelectedTextColor">@color/grey_3</item>
+    <item name="tabSelectedTextColor">@color/primaryDarkColor</item>
   </style>
 
   <style name="CustomTabText" parent="TextAppearance.AppCompat.Button">
     <item name="android:textSize">10sp</item>
-    <item name="android:textColor">@color/grey_1</item>
+    <item name="android:textColor">@color/primaryColor</item>
   </style>
 
   <style name="PinButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -169,7 +169,7 @@
     <item name="android:layout_centerInParent">true</item>
     <item name="android:padding">@dimen/space_lg</item>
     <item name="android:background">@drawable/rounded_corner_white</item>
-    <item name="android:textColor">@color/grey_4</item>
+    <item name="android:textColor">@color/primaryTextColor</item>
   </style>
 
   <style name="RoundedWhitePanelIcon" parent="RoundedWhitePanel">

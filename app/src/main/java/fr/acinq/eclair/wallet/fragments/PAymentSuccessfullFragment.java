@@ -35,7 +35,7 @@ public class PAymentSuccessfullFragment extends Fragment {
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
 
-    FragmentPaymentSuccessfullBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_payment_successfull,container,false);
+    FragmentPaymentSuccessfullBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_payment_success_regular,container,false);
     View root=binding.getRoot();
 
     binding.setPaymentSuccesfullPresenter(new PaymentSuccesfullPresenter() {

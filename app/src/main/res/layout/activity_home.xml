@@ -52,7 +52,7 @@
         android:id="@+id/balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="@color/primaryColor"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical">
@@ -276,7 +276,7 @@
         android:onClick="toggleSendPaymentButtons"
         android:src="@mipmap/ic_send"
         android:visibility="visible"
-        app:backgroundTint="@color/primary"
+        app:backgroundTint="@color/green"
         app:fabSize="normal" />
 
     </LinearLayout>

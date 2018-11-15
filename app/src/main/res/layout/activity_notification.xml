@@ -13,7 +13,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/primary_light_x1"
+    android:background="@color/primaryColor"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     app:title="Notifications">
     <!-- title for the Toolbar-->
@@ -32,10 +32,10 @@
 
 
     <LinearLayout
-      android:background="@color/primary_light_x1"
+      android:background="@color/primaryColor"
       android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:gravity="center"
+      android:layout_height="80dp"
+      android:gravity="bottom"
       android:orientation="horizontal">
       <TextView
 
@@ -47,7 +47,7 @@
         android:textAlignment="center"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textSize"
-        android:text="Service/Payment Name"/>
+        android:text="Service"/>
 
       <TextView
         android:textColor="@color/white"

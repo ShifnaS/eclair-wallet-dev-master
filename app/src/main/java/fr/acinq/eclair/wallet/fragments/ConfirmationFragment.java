@@ -118,6 +118,8 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
     //  fragmentTransaction.addToBackStack(null);
-    fragmentTransaction.commit();
+    //fragmentTransaction.commit();
+    fragmentTransaction.commitAllowingStateLoss();
+
   }
 }

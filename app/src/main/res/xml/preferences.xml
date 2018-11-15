@@ -68,7 +68,7 @@
   <PreferenceCategory android:title="@string/prefs_cat_lightning">
 
     <SwitchPreference
-      android:defaultValue="true"
+      android:defaultValue="false"
       android:key="cap_lightning_fees"
       android:summary="@string/prefs_lightning_max_fee_desc"
       android:title="@string/prefs_lightning_max_fee" />

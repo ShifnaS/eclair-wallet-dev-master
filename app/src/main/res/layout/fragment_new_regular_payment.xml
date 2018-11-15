@@ -16,104 +16,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-  <LinearLayout
-    android:background="?android:windowBackground"
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/content_regular"
-
-    >
 
     <LinearLayout
+      android:id="@+id/content_regular"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:orientation="vertical"
-      android:layout_weight="2"
-      android:gravity="center_horizontal">
+      android:layout_height="match_parent"
+      android:background="?android:windowBackground"
+      android:gravity="center_horizontal|center_vertical"
+      android:orientation="vertical">
 
       <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:visibility="invisible"/>
-
-      <TextView
-        android:gravity="center_vertical"
-        android:textAlignment="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="50dp"
-        android:textSize="@dimen/textSize"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Enter or Scan an Invoice Schedule ID"
-        android:textColor="@color/grey_4"
-        android:background="@drawable/rounded_corner_button"
-        />
-      <LinearLayout
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        >
+        android:layout_margin="50dp"
+        android:orientation="vertical">
 
-        <EditText
-          android:id="@+id/invoice_id"
-          android:layout_width="0dp"
-          android:layout_height="150dp"
-          android:layout_weight="1"
+        <TextView
+          android:layout_marginBottom="20dp"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
           android:background="@drawable/rounded_corner_button"
           android:gravity="center_vertical"
-          android:onTextChanged="@{(text, start, before, count) ->newRegularPaymentPresenter.onTextChanged(text, start, before, count)}"
-          android:text="@={regularpayment.invoice_id}"
+          android:text="Enter or Scan an Invoice Schedule ID"
           android:textAlignment="center"
           android:textColor="@color/grey_4"
-          android:textColorHint="@color/grey_4"
           android:textSize="@dimen/textSize" />
-        <ImageButton
-          android:id="@+id/camera"
-          android:layout_marginLeft="20dp"
-          android:layout_width="0dp"
-          android:layout_height="50dp"
-          android:layout_weight=".2"
-          android:scaleType="fitXY"
-          android:scaleX="1"
-          android:scaleY="1"
-          android:onClick="@{(v)->newRegularPaymentPresenter.scan()}"
-          android:textColor="@color/yellow"
-          android:background="@drawable/ic_camera_alt_black_24dp"
+
+        <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="20dp"
+          android:background="@drawable/rounded_corner_button"
+          android:layout_marginBottom="20dp"
+          >
           />
+
+          <EditText
+            android:gravity="center"
+            android:background="@null"
+            android:id="@+id/invoice_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onTextChanged="@{(text, start, before, count) ->newRegularPaymentPresenter.onTextChanged(text, start, before, count)}"
+            android:text="@={regularpayment.invoice_id}"
+            android:textAlignment="center"
+            android:textColor="@color/grey_4"
+            android:textColorHint="@color/grey_4"
+            android:textSize="@dimen/textSize"
+            />
+
+          <ImageButton
+            android:id="@+id/camera"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_camera_alt_black_24dp"
+            android:onClick="@{(v)->newRegularPaymentPresenter.scan()}"
+            android:scaleType="fitXY"
+            android:scaleX="1"
+            android:scaleY="1" />
+
+        </RelativeLayout>
+        <Button
+          android:layout_marginTop="20dp"
+          android:visibility="gone"
+          android:id="@+id/confirm"
+          android:layout_width="match_parent"
+          android:layout_height="35dp"
+          android:text="@string/confirm"
+          android:textColor="@color/white"
+          android:textSize="@dimen/textSize"
+          android:onClick="@{(v)->newRegularPaymentPresenter.confirm()}"
+          android:background="@drawable/rounded_corner_green"/>
+        <Button
+          android:layout_marginTop="20dp"
+
+          android:enabled="false"
+          android:clickable="false"
+          android:id="@+id/disable"
+          android:layout_width="match_parent"
+          android:layout_height="35dp"
+          android:text="@string/confirm"
+          android:textColor="@color/white"
+          android:textSize="@dimen/textSize"
+          android:background="@drawable/rounded_corner_green"/>
+
+
       </LinearLayout>
-      <Button
-        android:layout_marginRight="30dp"
-        android:visibility="gone"
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="@string/confirm"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSize"
-        android:onClick="@{(v)->newRegularPaymentPresenter.confirm()}"
-        android:background="@drawable/rounded_corner_green"/>
-      <Button
-        android:layout_marginRight="30dp"
 
-        android:enabled="false"
-        android:clickable="false"
-        android:id="@+id/disable"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="@string/confirm"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSize"
-        android:background="@drawable/rounded_corner_primary_light_x1"/>
+
     </LinearLayout>
-
-
-  </LinearLayout>
 
   </ScrollView>
 

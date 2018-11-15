@@ -26,6 +26,7 @@ import fr.acinq.eclair.channel.ChannelException;
 import fr.acinq.eclair.payment.PaymentLifecycle;
 import fr.acinq.eclair.router.Hop;
 import fr.acinq.eclair.router.RouteNotFound$;
+import fr.acinq.eclair.wallet.activities.PaymentErrorListner;
 import scala.collection.JavaConverters;
 
 /**
@@ -57,6 +58,9 @@ public class LightningPaymentError implements Parcelable {
   private String origin;
   private String originChannelId;
   private List<String> hops;
+
+
+
 
   public LightningPaymentError(String type, String cause, String origin, String originChannelId, List<String> hops) {
     this.type = type;
@@ -178,5 +182,6 @@ public class LightningPaymentError implements Parcelable {
     parcel.writeString(origin);
     parcel.writeString(originChannelId);
     parcel.writeList(hops);
+  //  parcel.writeString(paymentErrorListner);
   }
 }

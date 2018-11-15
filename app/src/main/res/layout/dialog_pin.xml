@@ -44,7 +44,7 @@
       android:layout_marginTop="@dimen/space_md"
       android:paddingTop="@dimen/space_md"
       android:paddingBottom="@dimen/space_md"
-      android:background="@color/primary_dark_x1"
+      android:background="@color/primaryDarkColor"
       android:layout_height="wrap_content">
 
       <TextView

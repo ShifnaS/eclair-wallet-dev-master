@@ -5,5 +5,5 @@
       android:endColor="#FFFFFF"
       android:angle="270" />
   <stroke android:width="5px"
-      android:color="@color/primary_light_x1" />
+      android:color="@color/primaryLightColor" />
 </shape>
