@@ -69,6 +69,7 @@ public class LocalChannelItemHolder extends RecyclerView.ViewHolder implements V
   @Override
   public void onClick(View v) {
    // Toast.makeText(, "", Toast.LENGTH_SHORT).show();
+  //  Toast.makeText(app, "", Toast.LENGTH_SHORT).show();
     Intent intent = new Intent(v.getContext(), ChannelDetailsActivity.class);
     intent.putExtra(EXTRA_CHANNEL_ID, this.channel.getChannelId());
     v.getContext().startActivity(intent);

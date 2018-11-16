@@ -79,7 +79,8 @@ public class LNPaymentDetailsActivity extends EclairActivity {
       mBinding.recipient.setValue(p.getRecipient());
       mBinding.desc.setValue(p.getDescription());
       String data=p.getInvoice_id();
-      if(data.equals(""))
+     // if(data.equals())
+      if(data.equals("A"))
       {
         mBinding.next.setVisibility(View.GONE);
       }

@@ -70,8 +70,7 @@ public class PaymentSuccessActivity extends EclairActivity  {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_payment_success);
-    //fragmentListner=(FragmentListner)this;
-    //HomeActivity homeActivity=new HomeActivity();
+
 
     Intent intent = getIntent();
     String desc = intent.getStringExtra(EXTRA_PAYMENTSUCCESS_DESC);
@@ -83,83 +82,84 @@ public class PaymentSuccessActivity extends EclairActivity  {
     mDescView.setText(desc);
 
 
-    if(intent.hasExtra(EXTRA_IVOICE_ID))
-    {
-    /*  String nodeid=app.nodePublicKey();
-      Toast.makeText(app, "nodeId "+nodeid, Toast.LENGTH_SHORT).show();*/
-
       String data=intent.getStringExtra(EXTRA_IVOICE_ID);
 
-      String my[]=data.split(",");
+      if(data.equals("A"))
+      {
+        Toast.makeText(app, "Successfully Paid", Toast.LENGTH_SHORT).show();
+        Intent inten = new Intent(getBaseContext(), HomeActivity.class);
+        inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(inten);
+        finish();
+      }
+      else
+      {
+        String my[]=data.split(",");
 
-      String invoice_id=my[0];
-      mDescView_success.setText(my[1]);
+        String invoice_id=my[0];
+        mDescView_success.setText(my[1]);
 
 
-      final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-      SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-      String regId = pref.getString("regId", null);
+        final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
 
-      VolleyLog.DEBUG = true;
-      RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
+        VolleyLog.DEBUG = true;
+        RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
 
-      final String url = String.format(String.format(Constants.URL_OK+invoice_id+"/"+deviceId+"/"+regId));
-      JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-        jo -> {
-          //Log.e("Response", "*******************"+jo.toString());
-          // jo=res;
-          try
-          {
-            String response = jo.getString("message");
-            boolean error = jo.getBoolean("error");
-            if (!error)
+        final String url = String.format(String.format(Constants.URL_OK+invoice_id+"/"+deviceId+"/"+regId));
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+          jo -> {
+            //Log.e("Response", "*******************"+jo.toString());
+            // jo=res;
+            try
             {
-              if (response.equalsIgnoreCase("success"))
+              String response = jo.getString("message");
+              boolean error = jo.getBoolean("error");
+              if (!error)
               {
-                if(my.length==3)
+                if (response.equalsIgnoreCase("success"))
                 {
+                  if(my.length==3)
+                  {
                     Intent i=new Intent(getApplicationContext(),HomeActivity.class);
                     startActivity(i);
                     finish();
+                  }
+                  else
+                  {
+                    fragmentCommunicator.passData("success");
+                  }
+
+
+
                 }
                 else
                 {
-                  fragmentCommunicator.passData("success");
+                  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                 }
-
-
-
               }
               else
               {
                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+
               }
-            }
-            else
+
+            } catch (JSONException e)
             {
-              Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-
+              e.printStackTrace();
             }
 
-          } catch (JSONException e)
-          {
-            e.printStackTrace();
-          }
+
+          },
+          error -> Log.e("Error.Response", "************************"+error.getMessage())
+        );
+        queue.add(getRequest);
+      }
 
 
-        },
-        error -> Log.e("Error.Response", "************************"+error.getMessage())
-      );
-      queue.add(getRequest);
 
-    }
-    else
-    {
-      Intent inten = new Intent(getBaseContext(), HomeActivity.class);
-      inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivity(inten);
-      finish();
-    }
+
 
     tada();
     dismissHandler = new Handler();

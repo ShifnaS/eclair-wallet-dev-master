@@ -63,7 +63,7 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
     TextView bt_amount=root.findViewById(R.id.amount);
     Button bt_confirm=root.findViewById(R.id.confirm);
 
-    bt_amount.setText("Confirmation of Payment Details "+amount+"BTC");
+    bt_amount.setText("The amount due to be paid today is: "+amount+"BTC");
 
 
 
@@ -74,7 +74,7 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
         Toast.makeText(getContext(), "Please wait until transaction complete", Toast.LENGTH_LONG).show();
         String payment_desc="Your next Payment will be on month: "+month+" day:"+day;
         bt_confirm.setEnabled(false);
-        bt_amount.setText("Confirmation of Payment Details "+amount+"BTC \n Do not press Back Button...Please wait until transaction complete");
+        bt_amount.setText("The amount due to be paid today is: "+amount+"BTC \n Do not press Back Button...\nPlease wait until transaction complete");
         bt_confirm.setBackgroundColor(getResources().getColor(R.color.primary_light_x1));
         Intent intent = new Intent(getContext(), SendPaymentActivity.class);
         intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
@@ -113,7 +113,7 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
   @Override
   public void passData(String msg) {
     //Toast.makeText(getContext(), "hiiii "+msg, Toast.LENGTH_SHORT).show();
-    Fragment fragment = new PAymentSuccessfullFragment();
+    Fragment fragment = new PaymentSuccessRegularFragment();
     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);

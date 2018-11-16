@@ -23,7 +23,7 @@
   <string name="manage_regular_payment">Manage Regular Payment</string>
   <string name="abcdxyz123">ABCDXYZ123</string>
   <string name="confirm">Confirm</string>
-  <string name="makeinitialpayment">Confirm and Approve Payments</string>
+  <string name="makeinitialpayment">Accept Payment Schedule</string>
   <string name="cancel">Cancel</string>
   <string name="confirmPayment">Confirm payment</string>
   <string name="ok">ok</string>

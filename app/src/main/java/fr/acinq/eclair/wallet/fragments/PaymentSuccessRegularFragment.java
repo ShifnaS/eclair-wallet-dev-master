@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +36,12 @@ public class PaymentSuccessRegularFragment extends Fragment {
         binding.setPaymentSuccess(new PaymentSuccess() {
             @Override
             public void ok() {
-                Intent i=new Intent(getContext(), HomeActivity.class);
-                startActivity(i);
+              Fragment fragment = new LightningFragment();
+              FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+              fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+              //  fragmentTransaction.addToBackStack(null);
+              fragmentTransaction.commit();
             }
         });
         return root;

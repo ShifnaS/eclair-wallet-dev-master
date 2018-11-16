@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.base.Strings;
 
@@ -79,6 +80,8 @@ public class PaymentItemHolder extends RecyclerView.ViewHolder implements View.O
 
   @Override
   public void onClick(final View v) {
+
+   // Toast.makeText(v.getContext(), "hiiiii", Toast.LENGTH_SHORT).show();
     final Intent intent = PaymentType.BTC_LN.equals(mPayment.getType())
       ? new Intent(v.getContext(), LNPaymentDetailsActivity.class)
       : new Intent(v.getContext(), BitcoinTransactionDetailsActivity.class);

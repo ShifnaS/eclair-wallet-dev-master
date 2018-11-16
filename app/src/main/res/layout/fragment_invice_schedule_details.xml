@@ -31,7 +31,7 @@
         android:layout_margin="30dp">
 
         <LinearLayout
-          android:layout_width="350dp"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
 
           android:layout_marginTop="20dp"
@@ -113,6 +113,18 @@
           android:background="@drawable/rounded_corner_green"
           android:onClick="@{(v)->invoiceSchedulePresenter.cancel()}"
           android:text="Cancel Regular Payment"
+          android:textColor="@color/white"
+          android:textSize="@dimen/textSize" />
+
+
+        <Button
+          android:id="@+id/back"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="30dp"
+          android:background="@drawable/rounded_corner_green"
+          android:onClick="@{(v)->invoiceSchedulePresenter.back()}"
+          android:text="Back"
           android:textColor="@color/white"
           android:textSize="@dimen/textSize" />
       </LinearLayout>

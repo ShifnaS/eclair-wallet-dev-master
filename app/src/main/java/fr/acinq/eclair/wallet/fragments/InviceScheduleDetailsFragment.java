@@ -1,6 +1,8 @@
 package fr.acinq.eclair.wallet.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ public class InviceScheduleDetailsFragment extends Fragment {
     private JSONArray list;
     private ManageRegularPaymentAdapter mAdapter;
     String schedule_id="";
+    int status;
     public InviceScheduleDetailsFragment() {
         // Required empty public constructor
     }
@@ -61,6 +64,12 @@ public class InviceScheduleDetailsFragment extends Fragment {
 
         Bundle bundle = getArguments();
         schedule_id=bundle.getString("schedule_id");
+        status=bundle.getInt("status");
+        if(status==3)
+        {
+          binding.cancel.setVisibility(View.GONE);
+
+        }
         tv_schedule_no=root.findViewById(R.id.schedule_no);
         tv_schedule_no.setText("Invoice Schedule: "+schedule_id);
 
@@ -92,6 +101,7 @@ public class InviceScheduleDetailsFragment extends Fragment {
               if (status.equalsIgnoreCase("success"))
               {
                 list=jo.getJSONArray("message");
+
                 mAdapter = new ManageRegularPaymentAdapter(jo.getJSONArray("message"),getContext());
                 recyclerView.setAdapter(mAdapter);
 
@@ -124,60 +134,83 @@ public class InviceScheduleDetailsFragment extends Fragment {
             @Override
             public void cancel() {
 
-              VolleyLog.DEBUG = true;
-              RequestQueue queue = SingletonRequestQueue.getInstance(getContext()).getRequestQueue();
+              new AlertDialog.Builder(getContext())
+                .setIcon(android.R.drawable.ic_delete)
+                .setTitle("Confirm Cancel!")
+                .setMessage("Are you sure you want to cancel this schedule?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
 
-              final String url = String.format(String.format(Constants.URL_CANCEL_PAYMENT+schedule_id));
-              JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                jo -> {
-                  //Log.e("Response", "*******************"+jo.toString());
-                  // jo=res;
-                  try
-                  {
-                    String status = jo.getString("status");
-                    boolean error = jo.getBoolean("error");
-                    if (!error)
-                    {
-                      if (status.equalsIgnoreCase("success"))
-                      {
-                         Toast.makeText(getContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
-                        Fragment fragment = new LightningFragment();
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-                      //  fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
 
-                      }
-                      else
-                      {
-                        Toast.makeText(getContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+                    VolleyLog.DEBUG = true;
+                    RequestQueue queue = SingletonRequestQueue.getInstance(getContext()).getRequestQueue();
 
-                      }
-                    }
-                    else
-                    {
-                      Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
+                    final String url = String.format(String.format(Constants.URL_CANCEL_PAYMENT+schedule_id));
+                    JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                      jo -> {
 
-                    }
+                        try
+                        {
+                          String status = jo.getString("status");
+                          boolean error = jo.getBoolean("error");
+                          if (!error)
+                          {
+                            if (status.equalsIgnoreCase("success"))
+                            {
+                              Toast.makeText(getContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+                              Fragment fragment = new LightningFragment();
+                              FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                              fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+                              //  fragmentTransaction.addToBackStack(null);
+                              fragmentTransaction.commit();
 
-                  } catch (JSONException e)
-                  {
-                    e.printStackTrace();
+                            }
+                            else
+                            {
+                              Toast.makeText(getContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            }
+                          }
+                          else
+                          {
+                            Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
+
+                          }
+
+                        } catch (JSONException e)
+                        {
+                          e.printStackTrace();
+                        }
+
+
+                      },
+                      error -> Log.e("Error.Response", "************************"+error.getMessage())
+                    );
+                    queue.add(getRequest);
+
                   }
 
-
-                },
-                error -> Log.e("Error.Response", "************************"+error.getMessage())
-              );
-              queue.add(getRequest);
+                })
+                .setNegativeButton("No", null)
+                .show();
 
 
-
-               /* Intent i=new Intent(getContext(), HomeActivity.class);
-                startActivity(i);*/
             }
-        });
+
+        @Override
+        public void back() {
+          Fragment fragment = new ManageRegularPamentFragment();
+          FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+          FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+          fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+          //  fragmentTransaction.addToBackStack(null);
+          //fragmentTransaction.commit();
+          fragmentTransaction.commitAllowingStateLoss();
+        }
+      });
         return root;
     }
 

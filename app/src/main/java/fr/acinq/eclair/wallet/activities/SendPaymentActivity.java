@@ -396,7 +396,7 @@ public class SendPaymentActivity extends EclairActivity
 
             if(goToFrag.equals(""))
             {
-              newPayment.setInvoice_id("");
+              newPayment.setInvoice_id("A");
               newPayment.setDescription(paymentDescription);
 
             }
@@ -413,9 +413,7 @@ public class SendPaymentActivity extends EclairActivity
                 newPayment.setDescription(invoiceAsString);
               }
 
-
-              // newPayment.setDescription("");
-            }
+           }
             app.getDBHelper().insertOrUpdatePayment(newPayment);
 
 

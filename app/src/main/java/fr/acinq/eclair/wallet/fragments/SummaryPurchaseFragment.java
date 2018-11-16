@@ -29,6 +29,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -72,7 +74,7 @@ public class SummaryPurchaseFragment extends Fragment {
 
         String id=bundle.getString("_id");
         String service_name=bundle.getString("service_name");
-        String immediate_cost=bundle.getString("immediate_cost");
+        Double im_cost=bundle.getDouble("immediate_cost");
         String amount=bundle.getString("amount");
         String frequency=bundle.getString("frequency");
         String payment_day=bundle.getString("payment_date");
@@ -82,11 +84,11 @@ public class SummaryPurchaseFragment extends Fragment {
         int payment_month=bundle.getInt("payment_month");
         String note=bundle.getString("note");
        // String invoice_id=bundle.getString("invoice_id");
-
+     //   Toast.makeText(getContext(), ""+immediate_cost, Toast.LENGTH_SHORT).show();
         double amt=Double.parseDouble(amount);
-        //double amt_btc=amt/100000000;
-        String amt_btc=amount;
-      String days="";
+        String amt_btc=BigDecimal.valueOf(amt).toPlainString();
+        String immediate_cost=BigDecimal.valueOf(im_cost).toPlainString();
+        String days="";
 
         day = new String[28];
         for(int i=0;i<28;i++)
@@ -160,7 +162,7 @@ public class SummaryPurchaseFragment extends Fragment {
           else
           {
             //annually
-            if(service_name.equalsIgnoreCase("A"))
+            if(service_name.equalsIgnoreCase("Blast Off Subscription"))
             {
               String month=getMonthInString(payment_month);
               s="Summary of Purchase \n\n Name – Service "+service_name+" \n Immediate Payment Cost = "+immediate_cost+" \n\n\n\n" +
@@ -209,6 +211,7 @@ public class SummaryPurchaseFragment extends Fragment {
                 String month_day=binding.tvDate.getText().toString().trim();
                 String md[]=month_day.split(" ");
                 postParam.put("paymentDay", md[0]);
+                postParam.put("service_name", service_name);
                 postParam.put("paymentAmount", amount);
                 postParam.put("frequency", frequency);
                 postParam.put("schedule_id", schedule_id);
@@ -264,7 +267,7 @@ public class SummaryPurchaseFragment extends Fragment {
                               Fragment fragment = new ConfirmationFragment();
                               Bundle bundle = new Bundle();
                               bundle.putString("invoice_id", invoice_id);
-                              bundle.putString("amount", ""+amt_btc);
+                              bundle.putString("amount", ""+immediate_cost);
                               bundle.putString("month", ""+month);
                               bundle.putString("day", ""+md[0]);
 
@@ -280,13 +283,13 @@ public class SummaryPurchaseFragment extends Fragment {
                             }
                             else
                             {
-                              Toast.makeText(getContext(), ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                              Toast.makeText(getContext(), ""+jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
 
                             }
                           }
                           else
                           {
-                            Toast.makeText(getContext(), ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), ""+jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
                           }
 
 
@@ -333,7 +336,13 @@ public class SummaryPurchaseFragment extends Fragment {
 
             @Override
             public void cancel() {
-
+              Fragment fragment = new LightningFragment();
+              FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+              fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+              //  fragmentTransaction.addToBackStack(null);
+              //fragmentTransaction.commit();
+              fragmentTransaction.commitAllowingStateLoss();
             }
 
         @Override
@@ -428,7 +437,7 @@ public class SummaryPurchaseFragment extends Fragment {
 
 
     int dom = c.get(Calendar.DAY_OF_MONTH);
-    if(day<dom)
+    if(day<=dom)
     {
       month=c.get(Calendar.MONTH)+2;
 

@@ -141,8 +141,9 @@ public class NewRegularPaymentFragment extends Fragment {
                       {
                         try
                         {
-                          String schedule_id = "",_id, note="",schedule_type = "", service_name = "", immediate_cost = "",  payment_date = "", qr_code = "", amount = "", frequency = "";
+                          String schedule_id = "",_id, note="",schedule_type = "", service_name = "",  payment_date = "", qr_code = "", amount = "", frequency = "";
                           int stat,payment_month;
+                          double immediate_cost;
                           String status = jo.getString("status");
                           boolean error = jo.getBoolean("error");
                          // Toast.makeText(getContext(), "status "+status, Toast.LENGTH_SHORT).show();
@@ -177,9 +178,9 @@ public class NewRegularPaymentFragment extends Fragment {
                                   service_name = "";
                                 }
                                 if (jsonObject.has("immediate_cost")) {
-                                  immediate_cost = jsonObject.getString("immediate_cost");
+                                  immediate_cost = jsonObject.getDouble("immediate_cost");
                                 } else {
-                                  immediate_cost = "";
+                                  immediate_cost =0.0;
                                 }
                                 if (jsonObject.has("payment_month")) {
                                   payment_month = jsonObject.getInt("payment_month");
@@ -232,7 +233,7 @@ public class NewRegularPaymentFragment extends Fragment {
                                   Bundle bundle = new Bundle();
                                   bundle.putString("_id", _id);
                                   bundle.putString("service_name", service_name);
-                                  bundle.putString("immediate_cost", immediate_cost);
+                                  bundle.putDouble("immediate_cost", immediate_cost);
                                   bundle.putString("amount", amount);
                                   bundle.putString("frequency", frequency);
                                   bundle.putString("payment_date", payment_date);

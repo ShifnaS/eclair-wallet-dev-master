@@ -13,6 +13,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+
 import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.activities.NotificationActivity;
 
@@ -54,10 +56,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       {
         service_name=service.getString("service_name");
       }
+
+      double amt=Double.parseDouble(data.getString("regular_amount"));
+      String amt_btc=BigDecimal.valueOf(amt).toPlainString();
+
       String payment_date=data.getString("payment_date");
+      String date[]=payment_date.split("T");
+
       holder.service.setText(service_name);
-      holder.date.setText(data.getString("payment_date"));
-      holder.amount.setText(data.getString("regular_amount"));
+      holder.date.setText(date[0]);
+      holder.amount.setText(amt_btc);
       String invoice_id=data.getString("invoice_id");
 
       holder.bt_pay.setOnClickListener(new View.OnClickListener() {

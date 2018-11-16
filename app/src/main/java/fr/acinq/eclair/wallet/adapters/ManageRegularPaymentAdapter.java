@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import fr.acinq.eclair.wallet.R;
@@ -45,13 +46,26 @@ public class ManageRegularPaymentAdapter extends RecyclerView.Adapter<ManageRegu
       "payment_date": "2018-11-07T00:00:00.000Z"*/
         if(data.has("regular_amount")&&data.has("actual_payment_date")&&data.has("payment_date"))
         {
-          holder.scedule_id.setText(data.getString("regular_amount"));
-          holder.status.setText(data.getString("actual_payment_date"));
+
+          double amt=Double.parseDouble(data.getString("regular_amount"));
+          String amt_btc=BigDecimal.valueOf(amt).toPlainString();
+
+          String datetime=data.getString("actual_payment_date");
+          String date[]=datetime.split("T");
+          holder.scedule_id.setText(amt_btc);
+          holder.status.setText(date[0]);
         }
         else if(data.has("regular_amount")&&data.has("payment_date"))
         {
-          holder.scedule_id.setText(data.getString("regular_amount"));
-          holder.status.setText(data.getString("payment_date"));
+          double amt=Double.parseDouble(data.getString("regular_amount"));
+          String amt_btc=BigDecimal.valueOf(amt).toPlainString();
+
+          String datetime=data.getString("payment_date");
+          String date[]=datetime.split("T");
+
+          holder.scedule_id.setText(amt_btc);
+          holder.status.setText(date[0]);
+
         }
         else
         {
@@ -59,11 +73,16 @@ public class ManageRegularPaymentAdapter extends RecyclerView.Adapter<ManageRegu
           int flag=data.getInt("status");
           if(flag==1)
           {
-            status="Yes";
+            status="Active";
+          }
+          else if(flag==2)
+          {
+            status="Inactive";
+
           }
           else
           {
-            status="No";
+            status="Cancelled";
           }
           holder.scedule_id.setText(data.getString("schedule_id"));
           holder.status.setText(status);

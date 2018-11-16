@@ -99,12 +99,10 @@ public class ManageRegularPamentFragment extends Fragment {
                    {
                      JSONObject jo=list.getJSONObject(position);
 
-                   //  Toast.makeText(getContext(), "scheduleid "+jo.getString("schedule_id"), Toast.LENGTH_SHORT).show();
-
-
                      Fragment fragment = new InviceScheduleDetailsFragment();
                      Bundle bundle = new Bundle();
                      bundle.putString("schedule_id", jo.getString("schedule_id"));
+                     bundle.putInt("status", jo.getInt("status"));
                      fragment.setArguments(bundle);
                      FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
