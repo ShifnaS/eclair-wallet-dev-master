@@ -331,6 +331,10 @@ public class NodeSupervisor extends UntypedActor {
       final PaymentLifecycle.PaymentFailed event = (PaymentLifecycle.PaymentFailed) message;
       final Payment paymentInDB = dbHelper.getPayment(event.paymentHash().toString(), PaymentType.BTC_LN);
       if (paymentInDB != null) {
+        String data= paymentInDB.getInvoice_id();
+        String my[]=data.split(",");
+        String invoice_id=my[0];
+        paymentInDB.setDescription(invoice_id);
         dbHelper.updatePaymentFailed(paymentInDB);
         // extract failure cause to generate a pretty error message
         final ArrayList<LightningPaymentError> errorList = new ArrayList<>();
@@ -340,7 +344,7 @@ public class NodeSupervisor extends UntypedActor {
             errorList.add(LightningPaymentError.generateDetailedErrorCause(failures.apply(i)));
           }
         }
-        EventBus.getDefault().post(new LNPaymentFailedEvent(paymentInDB.getReference(), paymentInDB.getDescription(), false, null, errorList));
+        EventBus.getDefault().post(new LNPaymentFailedEvent(paymentInDB.getReference(), paymentInDB.getDescription(), false, null, errorList,paymentInDB.getInvoice_id() ));
         paymentRefreshScheduler.tell(Constants.REFRESH, null);
       } else {
         log.debug("received and ignored an unknown PaymentFailed event with hash={}", event.paymentHash().toString());

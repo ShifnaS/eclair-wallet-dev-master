@@ -18,31 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_margin="20dp"
             android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
 
-              android:visibility="invisible"/>
-          <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:visibility="invisible"/>
-            <LinearLayout
 
-                android:layout_margin="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
+
                 <Button
                   android:textSize="@dimen/textSize"
                   android:id="@+id/camera"
-                  android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                  android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:text="@string/new_regular_payment"
                     android:textColor="@color/grey_4"
                   android:onClick="@{(v)->lightningPresenter.regularPayment()}"
@@ -50,35 +36,36 @@
                   android:background="@drawable/rounded_corner_button"
                     />
 
-            </LinearLayout>
             <Button
               android:textSize="@dimen/textSize"
 
               android:id="@+id/regularpay"
-                android:layout_marginTop="10dp"
-              android:layout_marginLeft="30dp"
-              android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="40dp"
                 android:text="@string/manage_regular_payment"
                 android:onClick="@{(v)->lightningPresenter.manageregularPayment()}"
 
                 android:textColor="@color/grey_4"
                 android:background="@drawable/rounded_corner_button"
                 />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
-        </LinearLayout>
-        <LinearLayout
+          <Button
+            android:textSize="@dimen/textSize"
+
+            android:id="@+id/notifications"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="40dp"
+            android:text="Notifications"
+            android:onClick="@{(v)->lightningPresenter.notifications()}"
+
+            android:textColor="@color/grey_4"
+            android:background="@drawable/rounded_corner_button"
+            />
+
 
         </LinearLayout>
+
 
     </LinearLayout>
 

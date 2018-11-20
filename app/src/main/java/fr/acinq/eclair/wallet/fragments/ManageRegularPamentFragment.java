@@ -35,6 +35,7 @@ import fr.acinq.eclair.wallet.api.SingletonRequestQueue;
 import fr.acinq.eclair.wallet.databinding.FragmentManageRegularPamentBinding;
 import fr.acinq.eclair.wallet.events.RecyclerTouchListener;
 
+import fr.acinq.eclair.wallet.presenter.ManageRegularPaymentPresenter;
 import fr.acinq.eclair.wallet.utils.Constants;
 
 /**
@@ -68,6 +69,24 @@ public class ManageRegularPamentFragment extends Fragment {
       recyclerView.setItemAnimator(new DefaultItemAnimator());
       recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
+
+      binding.setManageRegularPaymentPresenter(new ManageRegularPaymentPresenter() {
+        @Override
+        public void view() {
+
+        }
+
+        @Override
+        public void back() {
+          Fragment fragment = new LightningFragment();
+          FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+          FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+          fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+          //  fragmentTransaction.addToBackStack(null);
+          //fragmentTransaction.commit();
+          fragmentTransaction.commitAllowingStateLoss();
+        }
+      });
 
 
 

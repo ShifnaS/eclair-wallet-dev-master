@@ -56,6 +56,7 @@ public class SummaryPurchaseFragment extends Fragment {
     String dayy="1";
     String s="";
     int mm=0;
+  String frequency="";
     private SummaryPurchaseViewModel summaryPurchaseViewModel,summaryPurchaseViewModel1,summaryPurchaseViewModel2;
     public SummaryPurchaseFragment() {
         // Required empty public constructor
@@ -76,13 +77,14 @@ public class SummaryPurchaseFragment extends Fragment {
         String service_name=bundle.getString("service_name");
         Double im_cost=bundle.getDouble("immediate_cost");
         String amount=bundle.getString("amount");
-        String frequency=bundle.getString("frequency");
+        frequency=bundle.getString("frequency");
         String payment_day=bundle.getString("payment_date");
         String qr_code=bundle.getString("qr_code");
         String schedule_type=bundle.getString("schedule_type");
         String schedule_id=bundle.getString("schedule_id");
         int payment_month=bundle.getInt("payment_month");
         String note=bundle.getString("note");
+      //Toast.makeText(getContext(), "frequency  "+frequency, Toast.LENGTH_SHORT).show();
        // String invoice_id=bundle.getString("invoice_id");
      //   Toast.makeText(getContext(), ""+immediate_cost, Toast.LENGTH_SHORT).show();
         double amt=Double.parseDouble(amount);
@@ -232,7 +234,8 @@ public class SummaryPurchaseFragment extends Fragment {
                   int day=Integer.parseInt(md[0]);
                   int month=getMonth(day);
                   monthInt=month;
-                 // Toast.makeText(getContext(), "month "+month+" day "+day, Toast.LENGTH_SHORT).show();
+                  Log.e("Payment Date ","Month "+month+" day "+day);
+                //  Toast.makeText(getContext(), "month "+month+" day "+day, Toast.LENGTH_SHORT).show();
                   postParam.put("payment_month", ""+month);
 
                 }
@@ -263,13 +266,26 @@ public class SummaryPurchaseFragment extends Fragment {
                             if(jsonObject.getString("message").equals("success"))
                             {
                               invoice_id=jsonObject.getString("response");
+                              Log.e("invoice_id",invoice_id);
                               String month=getMonthInString(monthInt);
                               Fragment fragment = new ConfirmationFragment();
                               Bundle bundle = new Bundle();
                               bundle.putString("invoice_id", invoice_id);
-                              bundle.putString("amount", ""+immediate_cost);
+                              bundle.putString("frequency", frequency);
+
+                              if(immediate_cost.equals("0.0"))
+                              {
+                                bundle.putString("amount", ""+amt_btc);
+
+                              }
+                              else
+                              {
+                                bundle.putString("amount", ""+immediate_cost);
+
+                              }
                               bundle.putString("month", ""+month);
                               bundle.putString("day", ""+md[0]);
+                              bundle.putString("notification", note);
 
                               fragment.setArguments(bundle);
 
@@ -281,7 +297,7 @@ public class SummaryPurchaseFragment extends Fragment {
                              // fragmentTransaction.addToBackStack(null);
                               fragmentTransaction.commit();
                             }
-                            else
+                            else if(jsonObject.getString("message").equals("failed"))
                             {
                               Toast.makeText(getContext(), ""+jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
 
@@ -437,7 +453,11 @@ public class SummaryPurchaseFragment extends Fragment {
 
 
     int dom = c.get(Calendar.DAY_OF_MONTH);
-    if(day<=dom)
+
+   // month=c.get(Calendar.MONTH)+1;
+
+
+    if(day<dom)
     {
       month=c.get(Calendar.MONTH)+2;
 

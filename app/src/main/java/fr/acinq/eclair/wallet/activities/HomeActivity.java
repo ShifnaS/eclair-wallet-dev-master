@@ -129,6 +129,7 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     super.onCreate(savedInstanceState);
     mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
     new PaymentSuccessActivity(this);
+    new PaymentFailureActivity(this);
     //new PaymentFailureActivity(this);
     setSupportActionBar(mBinding.toolbar);
     ActionBar ab = getSupportActionBar();
@@ -625,6 +626,8 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
     intent.putExtra(PaymentFailureActivity.EXTRA_PAYMENT_DESC, event.paymentDescription);
     intent.putExtra(PaymentFailureActivity.EXTRA_PAYMENT_SIMPLE_ONLY, event.isSimple);
     intent.putExtra(PaymentFailureActivity.EXTRA_PAYMENT_SIMPLE_MESSAGE, event.simpleMessage);
+    intent.putExtra(PaymentFailureActivity.EXTRA_IVOICE_ID, event.invoiceId);
+
     intent.putParcelableArrayListExtra(PaymentFailureActivity.EXTRA_PAYMENT_ERRORS, event.errors);
     startActivity(intent);
   }
@@ -677,8 +680,7 @@ public class HomeActivity extends EclairActivity implements SharedPreferences.On
 
   @Override
   public void passData(String msg) {
-
-    //Toast.makeText(app, "hiiiii "+msg, Toast.LENGTH_SHORT).show();
+    Toast.makeText(app, "passData "+msg, Toast.LENGTH_SHORT).show();
     fragmentCommunicator.passData(msg);
 
   }

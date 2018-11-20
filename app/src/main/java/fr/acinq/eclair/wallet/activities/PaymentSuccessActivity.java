@@ -81,9 +81,8 @@ public class PaymentSuccessActivity extends EclairActivity  {
     mDescView_success = findViewById(R.id.paymentsuccess);
     mDescView.setText(desc);
 
-
       String data=intent.getStringExtra(EXTRA_IVOICE_ID);
-
+     // Toast.makeText(app, "invoicer id "+data , Toast.LENGTH_SHORT).show();
       if(data.equals("A"))
       {
         Toast.makeText(app, "Successfully Paid", Toast.LENGTH_SHORT).show();
@@ -107,7 +106,7 @@ public class PaymentSuccessActivity extends EclairActivity  {
         VolleyLog.DEBUG = true;
         RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
 
-        final String url = String.format(String.format(Constants.URL_OK+invoice_id+"/"+deviceId+"/"+regId));
+        final String url = String.format(String.format(Constants.URL_OK+invoice_id+"/"+deviceId+"/"+regId+"/0"));
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
           jo -> {
             //Log.e("Response", "*******************"+jo.toString());
@@ -120,7 +119,8 @@ public class PaymentSuccessActivity extends EclairActivity  {
               {
                 if (response.equalsIgnoreCase("success"))
                 {
-                  if(my.length==3)
+                 // Toast.makeText(app, ""+my.length, Toast.LENGTH_SHORT).show();
+                  if(my.length==4)
                   {
                     Intent i=new Intent(getApplicationContext(),HomeActivity.class);
                     startActivity(i);

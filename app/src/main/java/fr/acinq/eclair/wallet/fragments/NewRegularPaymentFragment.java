@@ -162,11 +162,7 @@ public class NewRegularPaymentFragment extends Fragment {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
 
-                                if (jsonObject.has("status")) {
-                                  stat = jsonObject.getInt("status");
-                                } else {
-                                  stat =0;
-                                }
+
                                 if (jsonObject.has("_id")) {
                                   _id = jsonObject.getString("_id");
                                 } else {
@@ -178,7 +174,17 @@ public class NewRegularPaymentFragment extends Fragment {
                                   service_name = "";
                                 }
                                 if (jsonObject.has("immediate_cost")) {
-                                  immediate_cost = jsonObject.getDouble("immediate_cost");
+                                  if(jsonObject.isNull("immediate_cost"))
+                                  {
+                                    immediate_cost =0.0;
+                                    //Toast.makeText(getContext(), "inside if", Toast.LENGTH_SHORT).show();
+                                  }
+                                  else
+                                  {
+                                   // Toast.makeText(getContext(), "inside else", Toast.LENGTH_SHORT).show();
+
+                                    immediate_cost = jsonObject.getDouble("immediate_cost");
+                                  }
                                 } else {
                                   immediate_cost =0.0;
                                 }
@@ -222,13 +228,8 @@ public class NewRegularPaymentFragment extends Fragment {
                                 } else {
                                   note = "";
                                 }
-                                if(stat==2)
-                                {
-                                  Toast.makeText(getContext(), "This schedule is not active", Toast.LENGTH_SHORT).show();
 
-                                }
-                                else
-                                {
+                                 // Toast.makeText(getContext(), "sssssssss", Toast.LENGTH_SHORT).show();
                                   Fragment fragment = new SummaryPurchaseFragment();
                                   Bundle bundle = new Bundle();
                                   bundle.putString("_id", _id);
@@ -248,7 +249,7 @@ public class NewRegularPaymentFragment extends Fragment {
                                   fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
                                   fragmentTransaction.addToBackStack(null);
                                   fragmentTransaction.commit();
-                                }
+
 
                               }
 
@@ -265,6 +266,7 @@ public class NewRegularPaymentFragment extends Fragment {
 
                         } catch (JSONException e) {
                           e.printStackTrace();
+                          Log.e("Immediate cost error","Errror "+e.getMessage());
                         }
                       }
                       else

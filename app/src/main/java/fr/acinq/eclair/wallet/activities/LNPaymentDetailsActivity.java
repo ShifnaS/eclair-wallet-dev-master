@@ -72,22 +72,37 @@ public class LNPaymentDetailsActivity extends EclairActivity {
       if (PaymentStatus.PAID == p.getStatus()) {
         mBinding.status.setTextColor(ContextCompat.getColor(this, R.color.green));
       } else if (PaymentStatus.FAILED == p.getStatus()) {
+        mBinding.next.setVisibility(View.GONE);
+
         mBinding.status.setTextColor(ContextCompat.getColor(this, R.color.red_faded));
       } else {
         mBinding.status.setTextColor(ContextCompat.getColor(this, R.color.orange));
       }
       mBinding.recipient.setValue(p.getRecipient());
-      mBinding.desc.setValue(p.getDescription());
       String data=p.getInvoice_id();
+
      // if(data.equals())
       if(data.equals("A"))
       {
+        mBinding.desc.setValue(p.getDescription());
         mBinding.next.setVisibility(View.GONE);
       }
       else
       {
         String d[]=data.split(",");
-        mBinding.next.setValue(d[1]);
+        if(d.length==4)
+        {
+          mBinding.desc.setValue(d[2]);
+          mBinding.next.setValue(d[1]);
+
+        }
+        else
+        {
+          ////no neeed for new apk
+          mBinding.desc.setValue(p.getDescription());
+          mBinding.next.setValue(d[1]);
+
+        }
       }
 
       if (p.getAmountRequestedMsat() == 0) {

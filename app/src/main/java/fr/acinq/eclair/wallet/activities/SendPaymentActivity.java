@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import org.bitcoinj.uri.BitcoinURI;
 import org.greenrobot.eventbus.util.AsyncExecutor;
@@ -402,6 +403,8 @@ public class SendPaymentActivity extends EclairActivity
             }
             else
             {
+              /*newPayment.setInvoice_id(invoiceAsString+","+goToFrag);
+              newPayment.setDescription(invoiceAsString);*/
               if(notification.equals(""))
               {
                 newPayment.setInvoice_id(invoiceAsString+","+goToFrag);
@@ -599,6 +602,7 @@ public class SendPaymentActivity extends EclairActivity
 
     final Intent intent = getIntent();
     invoiceAsString = intent.getStringExtra(EXTRA_INVOICE).trim();
+  //  Toast.makeText(app, ""+invoiceAsString, Toast.LENGTH_SHORT).show();
     if(intent.hasExtra(EXTRA_D))
     {
       goToFrag=intent.getStringExtra(EXTRA_D).trim();

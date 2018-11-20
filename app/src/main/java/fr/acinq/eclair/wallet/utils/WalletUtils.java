@@ -76,8 +76,9 @@ import fr.acinq.eclair.wallet.services.ChannelsBackupWorker;
 public class WalletUtils {
 
   private final static org.slf4j.Logger log = LoggerFactory.getLogger(WalletUtils.class);
+  public final static String ACINQ_NODE = "02bdc751eb69a890467d14a908e350ff85fb86d0d81ada39d2c8b8456a9923b5a6@52.221.123.31:9735";
 
-  public final static String ACINQ_NODE = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134@endurance.acinq.co:9735";
+  //public final static String ACINQ_NODE = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134@endurance.acinq.co:9735";
   private final static String PRICE_RATE_API = "https://blockchain.info/fr/ticker";
   public final static String UNENCRYPTED_SEED_NAME = "seed.dat";
   public final static String SEED_NAME = "enc_seed.dat";

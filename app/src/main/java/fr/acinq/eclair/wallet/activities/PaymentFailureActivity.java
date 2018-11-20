@@ -17,22 +17,36 @@
 package fr.acinq.eclair.wallet.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
 
 import java.util.List;
 
 import fr.acinq.eclair.wallet.BuildConfig;
 import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.adapters.LightningErrorListAdapter;
+import fr.acinq.eclair.wallet.api.SingletonRequestQueue;
+import fr.acinq.eclair.wallet.app.Config;
 import fr.acinq.eclair.wallet.models.LightningPaymentError;
+import fr.acinq.eclair.wallet.utils.Constants;
 
 public class PaymentFailureActivity extends EclairActivity {
 
@@ -41,6 +55,8 @@ public class PaymentFailureActivity extends EclairActivity {
   public static final String EXTRA_PAYMENT_SIMPLE_ONLY = BuildConfig.APPLICATION_ID + "EXTRA_SIMPLE_ONLY";
   public static final String EXTRA_PAYMENT_SIMPLE_MESSAGE = BuildConfig.APPLICATION_ID + "EXTRA_SIMPLE_MESSAGE";
   public static final String EXTRA_PAYMENT_ERRORS = BuildConfig.APPLICATION_ID + "EXTRA_PAYMENT_ERRORS";
+  public static final String EXTRA_IVOICE_ID = BuildConfig.APPLICATION_ID + "EXTRA_IVOICE_ID";
+
   private static final String TAG = "PaymentFailureActivity";
 
   private View mPaymentDescView;
@@ -50,11 +66,17 @@ public class PaymentFailureActivity extends EclairActivity {
   private Button mShowDetailed;
   private ImageButton mClose;
   private RecyclerView mErrorsView;
-  //static PaymentErrorListner paymentErrorListner;
 
-  /*public PaymentFailureActivity(PaymentErrorListner paymentErrorListner) {
-    this.paymentErrorListner=paymentErrorListner;
-  }*/
+  static FragmentCommunicator fragmentCommunicator;
+
+  public PaymentFailureActivity() {
+  }
+
+  public PaymentFailureActivity( FragmentCommunicator fragmentCommunicator) {
+    this.fragmentCommunicator=fragmentCommunicator;
+  }
+
+
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -71,6 +93,15 @@ public class PaymentFailureActivity extends EclairActivity {
     final String paymentDescription = intent.getStringExtra(EXTRA_PAYMENT_DESC);
     final String simpleMessage = intent.getStringExtra(EXTRA_PAYMENT_SIMPLE_MESSAGE);
     final boolean displaySimpleMessageOnly = intent.getBooleanExtra(EXTRA_PAYMENT_SIMPLE_ONLY, true);
+    final String data = intent.getStringExtra(EXTRA_IVOICE_ID);
+    String my[]=data.split(",");
+    String invoice_id=my[0];
+
+   // Toast.makeText(app, "Payment invoice id "+intent.getStringExtra(EXTRA_IVOICE_ID), Toast.LENGTH_SHORT).show();
+
+    final String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+    String regId = pref.getString("regId", null);
 
     mPaymentDescValue.setText(paymentDescription);
     if (displaySimpleMessageOnly) {
@@ -92,22 +123,62 @@ public class PaymentFailureActivity extends EclairActivity {
       });
     }
 
-    mClose = findViewById(R.id.paymentfailure_close);
-   /* mClose.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-      //  paymentErrorListner.paymentError("fail");
-       *//* Intent i=new Intent(getApplicationContext(),HomeActivity.class);
-        startActivity(i);
-        finish();*//*
-      }
-    });*/
-    mClose.setOnClickListener(view ->
+    VolleyLog.DEBUG = true;
+    RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
 
-     // Intent intent=new Inte
+    final String url = String.format(String.format(Constants.URL_OK+invoice_id+"/"+deviceId+"/"+regId+"/1"));
+    JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+      jo -> {
 
-      finish()
+        try
+        {
+          String response = jo.getString("message");
+          boolean error = jo.getBoolean("error");
+          if (!error)
+          {
+            Toast.makeText(app, "Payment Failed", Toast.LENGTH_SHORT).show();
+
+            if(!invoice_id.equals("A"))
+            {
+              if(my.length==4)
+              {
+                Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(i);
+                finish();
+              }
+              else
+              {
+                fragmentCommunicator.passData("failed");
+              }
+
+
+
+            }
+
+
+          }
+          else
+          {
+            Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+
+          }
+
+        } catch (JSONException e)
+        {
+          e.printStackTrace();
+        }
+
+
+      },
+      error -> Log.e("Error.Response", "************************"+error.getMessage())
     );
+    queue.add(getRequest);
+
+
+
+
+    mClose = findViewById(R.id.paymentfailure_close);
+    mClose.setOnClickListener(view -> finish());
 
     // animation
     final ImageView mSadImage = findViewById(R.id.paymentfailure_sad);

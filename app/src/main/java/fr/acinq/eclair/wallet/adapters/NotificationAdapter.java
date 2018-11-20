@@ -21,6 +21,8 @@ import fr.acinq.eclair.wallet.activities.NotificationActivity;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyViewHolder> {
   JSONArray list;
   Context context;
+  String service_name="";
+
   NotificationActivity.OnItemClick onItemClick;
 
   public NotificationAdapter(JSONArray list, Context context, NotificationActivity.OnItemClick onItemClick) {
@@ -42,7 +44,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
   public void onBindViewHolder(@NonNull NotificationAdapter.MyViewHolder holder, int position) {
     try
     {
-      String service_name="";
       JSONObject data=list.getJSONObject(position);
      // holder.service.setText(data.getString("service_name"));
 
@@ -69,9 +70,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       String invoice_id=data.getString("invoice_id");
 
       holder.bt_pay.setOnClickListener(new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
-          onItemClick.onClick(invoice_id,payment_date);
+
+
+          onItemClick.onClick(invoice_id,payment_date,service_name);
         }
       });
     }

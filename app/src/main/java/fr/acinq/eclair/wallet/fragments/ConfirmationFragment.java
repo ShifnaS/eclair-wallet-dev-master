@@ -35,18 +35,21 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
   public ConfirmationFragment() {
     // Required empty public constructor
   }
-  String day="",month;
+  String day="";
   String invoice_id="";
   SharedPreferences sp;
   SharedPreferences.Editor ed;
-
-
+  int m=0;
+  String payment_desc="";
+  TextView bt_amount;
+  Button bt_confirm;
+  FragmentConfirmationBinding binding;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    FragmentConfirmationBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_confirmation, container, false);
+    binding= DataBindingUtil.inflate(inflater,R.layout.fragment_confirmation, container, false);
     new HomeActivity(this);
 
 
@@ -55,13 +58,47 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
     ed=sp.edit();
     Bundle bundle = getArguments();
     String amount=bundle.getString("amount");
+    String note=bundle.getString("notification");
+
+    //Toast.makeText(getContext(), "Amount "+amount, Toast.LENGTH_SHORT).show();
+
+
     invoice_id=bundle.getString("invoice_id");
     day=bundle.getString("day");
     String month=bundle.getString("month");
+    String frequency=bundle.getString("frequency");
+
+    int dayy=Integer.parseInt(day);
+    Calendar c = Calendar.getInstance();
+    int dom = c.get(Calendar.DAY_OF_MONTH);
+    if(dayy==dom)
+    {
+      if(frequency.equals("2"))
+      {
+        payment_desc="Your next Payment will be on "+month+" "+day;
+
+      }
+      else
+      {
+        m=c.get(Calendar.MONTH)+2;
+        month=getMonthInString(m);
+        payment_desc="Your next Payment will be on "+month+" "+day;
+
+      }
+
+
+    }
+
+    else
+    {
+      payment_desc="Your next Payment will be on "+month+" "+day;
+
+    }
+
 
   // Toast.makeText(getContext(), "day "+day+" month"+month, Toast.LENGTH_SHORT).show();
-    TextView bt_amount=root.findViewById(R.id.amount);
-    Button bt_confirm=root.findViewById(R.id.confirm);
+    bt_amount=root.findViewById(R.id.amount);
+    bt_confirm=root.findViewById(R.id.confirm);
 
     bt_amount.setText("The amount due to be paid today is: "+amount+"BTC");
 
@@ -72,13 +109,15 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
       @Override
       public void confirm() {
         Toast.makeText(getContext(), "Please wait until transaction complete", Toast.LENGTH_LONG).show();
-        String payment_desc="Your next Payment will be on month: "+month+" day:"+day;
         bt_confirm.setEnabled(false);
         bt_amount.setText("The amount due to be paid today is: "+amount+"BTC \n Do not press Back Button...\nPlease wait until transaction complete");
         bt_confirm.setBackgroundColor(getResources().getColor(R.color.primary_light_x1));
+      //  binding.confirm.setVisibility(View.GONE);
         Intent intent = new Intent(getContext(), SendPaymentActivity.class);
         intent.putExtra(SendPaymentActivity.EXTRA_INVOICE, "lightning:"+invoice_id);
-        intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc);
+        intent.putExtra(SendPaymentActivity.EXTRA_D, payment_desc+","+note);
+       // intent.putExtra(SendPaymentActivity.EXTRA_NOTIFICATION, note);
+
         startActivity(intent);
 
 
@@ -91,7 +130,13 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
 
       @Override
       public void back() {
-
+        Fragment fragment = new LightningFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+        //  fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
       }
     });
 
@@ -113,13 +158,35 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
   @Override
   public void passData(String msg) {
     //Toast.makeText(getContext(), "hiiii "+msg, Toast.LENGTH_SHORT).show();
-    Fragment fragment = new PaymentSuccessRegularFragment();
-    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
-    //  fragmentTransaction.addToBackStack(null);
-    //fragmentTransaction.commit();
-    fragmentTransaction.commitAllowingStateLoss();
+    if(msg.equals("success"))
+    {
+      Fragment fragment = new PaymentSuccessRegularFragment();
+      FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+      fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+      //  fragmentTransaction.addToBackStack(null);
+      //fragmentTransaction.commit();
+      fragmentTransaction.commitAllowingStateLoss();
 
+    }
+    else
+    {
+      bt_amount.setText("Woops, something went wrong. There was an error making your payment. \n" +
+        "Please try again and if the problem persists, please drop us note with what went wrong to \n" +
+        "contact@lightningcollect.com.\n");
+      binding.back.setVisibility(View.VISIBLE);
+      binding.confirm.setVisibility(View.GONE);
+    }
+
+  }
+
+
+  public String getMonthInString(int m)
+  {
+    String[]monthName={"January","February","March", "April", "May", "June", "July",
+      "August", "September", "October", "November",
+      "December"};
+
+    return  monthName[m-1];
   }
 }
