@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 import fr.acinq.eclair.wallet.R;
 import fr.acinq.eclair.wallet.activities.NotificationActivity;
@@ -69,13 +70,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       holder.amount.setText(amt_btc);
       String invoice_id=data.getString("invoice_id");
 
+
+      String day[]=date[0].split("-");
+      int m=Integer.parseInt(day[1]);
+      int month=getMonth(m);
+      String monthString=getMonthInString(month);
+      String pDate=monthString+" "+day[2];
       holder.bt_pay.setOnClickListener(new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
 
 
-          onItemClick.onClick(invoice_id,payment_date,service_name);
+          onItemClick.onClick(invoice_id,pDate,service_name);
         }
       });
     }
@@ -104,4 +111,29 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     }
   }
+
+  public int getMonth(int m)
+  {
+    int month;
+    if(m==12)
+    {
+      month=1;
+    }
+    else
+    {
+      month=m+1;
+    }
+    return  month;
+  }
+
+
+  public String getMonthInString(int m)
+  {
+    String[]monthName={"January","February","March", "April", "May", "June", "July",
+      "August", "September", "October", "November",
+      "December"};
+
+    return  monthName[m-1];
+  }
+
 }

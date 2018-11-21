@@ -150,11 +150,16 @@ public class PaymentsListFragment extends Fragment implements SwipeRefreshLayout
     qb.orderDesc(PaymentDao.Properties.Updated).limit(150);
     final List<Payment> list = qb.list();
 
-    getActivity().runOnUiThread(() -> {
-      if (mEmptyLabel != null) {
-        mEmptyLabel.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
-      }
-    });
+
+    if(getActivity()!=null)
+    {
+      getActivity().runOnUiThread(() -> {
+        if (mEmptyLabel != null) {
+          mEmptyLabel.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+        }
+      });
+    }
+
 
     return list;
   }
@@ -178,7 +183,11 @@ public class PaymentsListFragment extends Fragment implements SwipeRefreshLayout
         @Override
         public void run() {
           final List<Payment> payments = getPayments();
-          getActivity().runOnUiThread(() -> mPaymentAdapter.update(payments, fiatCode, prefUnit, displayBalanceAsFiat));
+          if(getActivity()!=null)
+          {
+            getActivity().runOnUiThread(() -> mPaymentAdapter.update(payments, fiatCode, prefUnit, displayBalanceAsFiat));
+
+          }
         }
       }.start();
     }

@@ -101,6 +101,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // app is in background, show the notification in notification tray
         Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
         resultIntent.putExtra("message", message);
+       // startActivity(resultIntent);
 
         // check for image attachment
         if (TextUtils.isEmpty(imageUrl)) {
@@ -122,6 +123,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
    */
   private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
     notificationUtils = new NotificationUtils(context);
+    notificationUtils.playNotificationSound();
+
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
   }
@@ -131,6 +134,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
    */
   private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
     notificationUtils = new NotificationUtils(context);
+    notificationUtils.playNotificationSound();
+
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
   }

@@ -77,10 +77,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
             }
-            else
-            {
-              Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
-            }
+
           }
           else
           {
@@ -137,5 +134,9 @@ public class NotificationActivity extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+  @Override
+  public void onBackPressed() {
+    // Do Here what ever you want do on back press;
   }
 }
