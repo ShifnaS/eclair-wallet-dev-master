@@ -62,7 +62,7 @@ public class LightningFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frame, fragment,tag);
                 fragmentTransaction.addToBackStack(tag);
-                fragmentTransaction.commit();
+              fragmentTransaction.commitAllowingStateLoss();
             }
 
           @Override

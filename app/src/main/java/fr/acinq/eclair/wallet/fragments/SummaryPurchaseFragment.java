@@ -212,6 +212,11 @@ public class SummaryPurchaseFragment extends Fragment {
               Map<String, String> postParam= new HashMap<>();
                 String month_day=binding.tvDate.getText().toString().trim();
                 String md[]=month_day.split(" ");
+                if(md[0].length()!=2)
+                {
+                  md[0]="0"+md[0];
+                }
+
                 postParam.put("paymentDay", md[0]);
                 postParam.put("service_name", service_name);
                 postParam.put("paymentAmount", amount);
@@ -231,15 +236,22 @@ public class SummaryPurchaseFragment extends Fragment {
                 }
                 else
                 {
+                  // Toast.makeText(getContext(), "Payment Date "+month, Toast.LENGTH_SHORT).show();
                   int day=Integer.parseInt(md[0]);
                   int month=getMonth(day);
                   monthInt=month;
-                  Log.e("Payment Date ","Month "+month+" day "+day);
-                //  Toast.makeText(getContext(), "month "+month+" day "+day, Toast.LENGTH_SHORT).show();
-                  postParam.put("payment_month", ""+month);
+                  String monthString=""+month;
+                 /* int l=monthString.length();
+                  if(l!=2)
+                  {
+                    monthString="0"+month;
+                  }*/
+                  Log.e("Payment Date ","Month "+monthString+" day "+day);
+                  // Toast.makeText(getContext(), "month "+monthString+" day "+day, Toast.LENGTH_SHORT).show();
+                  postParam.put("payment_month", ""+monthString);
 
                 }
-                try
+              try
                 {
 
 
@@ -297,11 +309,28 @@ public class SummaryPurchaseFragment extends Fragment {
                              // fragmentTransaction.addToBackStack(null);
                               fragmentTransaction.commit();
                             }
-                            else if(jsonObject.getString("message").equals("failed"))
+                            else if(jsonObject.getString("message").equals("fail"))
+                            {
+                                String response=jsonObject.getString("response");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("date", response);
+                                Fragment fragment = new PaymentSuccessRegularFragment();
+                                fragment.setArguments(bundle);
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+                                //  fragmentTransaction.addToBackStack(null);
+                                //fragmentTransaction.commit();
+                                fragmentTransaction.commitAllowingStateLoss();
+
+
+                            }
+                            else
                             {
                               Toast.makeText(getContext(), ""+jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
 
                             }
+
                           }
                           else
                           {
@@ -460,11 +489,19 @@ public class SummaryPurchaseFragment extends Fragment {
     if(day<dom)
     {
       month=c.get(Calendar.MONTH)+2;
+      if(month==13)
+      {
+        month=1;
+      }
 
     }
     else
     {
       month=c.get(Calendar.MONTH)+1;
+      if(month==13)
+      {
+        month=1;
+      }
 
     }
 

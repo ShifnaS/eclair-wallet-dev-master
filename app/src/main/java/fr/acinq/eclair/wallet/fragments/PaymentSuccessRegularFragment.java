@@ -33,6 +33,20 @@ public class PaymentSuccessRegularFragment extends Fragment {
         // Inflate the layout for this fragment
         FragmentPaymentSuccessRegularBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_payment_success_regular, container, false);
         View root=binding.getRoot();
+
+        Bundle bundle = getArguments();
+        if(bundle==null)
+        {
+          binding.success.setText("payment successfull \n \n \n \n Thank You For using Lightning Collect");
+        }
+        else
+        {
+          String date=bundle.getString("date");
+          binding.success.setText("Your regular payment has been set up.\n \nYour first payment is scheduled for "+date+".\n \n \n \n Thank you for using Lightning Collect");
+        }
+
+
+
         binding.setPaymentSuccess(new PaymentSuccess() {
             @Override
             public void ok() {

@@ -11,12 +11,10 @@
     <LinearLayout
       android:layout_marginRight="20dp"
       android:layout_marginLeft="20dp"
-
       android:weightSum="3"
       android:background="?android:windowBackground"
-
       android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/content_regular_pay"
         >

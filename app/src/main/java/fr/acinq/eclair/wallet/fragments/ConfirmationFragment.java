@@ -81,6 +81,12 @@ public class ConfirmationFragment extends Fragment implements FragmentCommunicat
       else
       {
         m=c.get(Calendar.MONTH)+2;
+        if(m==13)
+        {
+          m=1;
+        }
+
+       // Toast.makeText(getContext(), "month "+m, Toast.LENGTH_SHORT).show();
         month=getMonthInString(m);
         payment_desc="Your next Payment will be on "+month+" "+day;
 

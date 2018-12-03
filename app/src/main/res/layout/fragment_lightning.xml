@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/frame"
-        >
+      android:background="?android:windowBackground"
+
+      >
 
         <LinearLayout
             android:layout_width="match_parent"

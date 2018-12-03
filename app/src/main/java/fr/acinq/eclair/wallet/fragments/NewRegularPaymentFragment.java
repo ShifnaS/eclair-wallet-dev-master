@@ -137,7 +137,7 @@ public class NewRegularPaymentFragment extends Fragment {
                     jo -> {
                       Log.e("Response", "*******************"+jo.toString());
                      // jo=res;if(
-                      if(jo!=null)
+                      if(!jo.isNull("status"))
                       {
                         try
                         {
@@ -271,7 +271,7 @@ public class NewRegularPaymentFragment extends Fragment {
                       }
                       else
                       {
-                        Toast.makeText(getContext(), "Invalid qr code", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Server Busy", Toast.LENGTH_SHORT).show();
                       }
 
 
