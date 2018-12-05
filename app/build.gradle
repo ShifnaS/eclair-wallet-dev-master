@@ -8,8 +8,8 @@ android {
         applicationId "fr.acinq.eclair.wallet.dev"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 28
-        versionName "0.3.13-DEV"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -47,6 +47,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+  def versionMajor = 1
+  def versionMinor = 0
+  def versionPatch = 0
 }
 
 greendao {
